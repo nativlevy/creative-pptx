@@ -6,7 +6,7 @@ import { cors } from 'hono/cors';
 import { connectDB, getDB, ObjectId } from './db';
 import { analyzeTranscript, generateSlideContent, generatePresentationContent, createPptxBuffer } from './gemini';
 import ragRoutes from './routes/rag';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync, statSync } from 'fs';
 
 const app = new Hono();
 
@@ -243,7 +243,7 @@ if (isProduction && existsSync('./dist/index.html')) {
 
     // Try to serve static file from dist
     const filePath = `./dist${urlPath}`;
-    if (existsSync(filePath)) {
+    if (existsSync(filePath) && statSync(filePath).isFile()) {
       const content = readFileSync(filePath);
       const ext = urlPath.split('.').pop()?.toLowerCase();
 
