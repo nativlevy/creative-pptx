@@ -232,29 +232,20 @@ const isProduction = process.env.NODE_ENV === 'production' || existsSync('./dist
 if (isProduction && existsSync('./dist/index.html')) {
   console.log('Production mode: serving static files from ./dist');
 
-  // Serve static assets (js, css, images, etc.)
-  app.use('/assets/*', serveStatic({ root: './dist' }));
+  // Serve all static files from dist (assets, json, svg, etc.)
+  app.use('*', serveStatic({ root: './dist' }));
 
-  // Serve specific static files (json, svg, etc.)
-  app.get('/*.json', serveStatic({ root: './dist' }));
-  app.get('/*.svg', serveStatic({ root: './dist' }));
-  app.get('/*.ico', serveStatic({ root: './dist' }));
-  app.get('/*.png', serveStatic({ root: './dist' }));
-  app.get('/*.jpg', serveStatic({ root: './dist' }));
-
-  // Serve index.html for root
-  app.get('/', (c) => {
-    const html = readFileSync('./dist/index.html', 'utf-8');
-    return c.html(html);
-  });
-
-  // SPA fallback - serve index.html for all non-API, non-static routes
-  app.get('*', (c) => {
+  // SPA fallback - serve index.html for client-side routes (not files, not API)
+  app.use('*', async (c, next) => {
     const path = c.req.path;
-    // Skip API routes and static file extensions
-    if (path.startsWith('/api') || /\.[a-zA-Z0-9]+$/.test(path)) {
-      return c.notFound();
+
+    // Skip API routes
+    if (path.startsWith('/api')) {
+      return next();
     }
+
+    // Check if a static file was already served (response has body)
+    // If serveStatic didn't find a file, serve index.html for SPA routing
     const html = readFileSync('./dist/index.html', 'utf-8');
     return c.html(html);
   });

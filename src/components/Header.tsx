@@ -158,7 +158,7 @@ export function Header() {
             {userMenuOpen && (
               <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-lg border border-phantom-200/80 overflow-hidden z-50">
                 <div className="px-4 py-3 border-b border-phantom-200/80">
-                  <p className="text-[13px] font-semibold text-phantom-900">John Doe</p>
+                  <p className="text-[13px] font-semibold text-phantom-900">Leave a Mark admin</p>
                   <p className="text-[12px] text-phantom-500">john@leaveamark.agency</p>
                 </div>
                 <div className="py-1">

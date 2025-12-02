@@ -131,7 +131,7 @@ export function Sidebar() {
             JD
           </div>
           <div className="flex-1 min-w-0 text-left">
-            <p className="text-[13px] text-phantom-900 font-medium truncate leading-tight">John Doe</p>
+            <p className="text-[13px] text-phantom-900 font-medium truncate leading-tight">Leave a Mark admin</p>
             <p className="text-[11px] text-phantom-500 truncate leading-tight">Agent</p>
           </div>
           <ChevronDown className={`w-3.5 h-3.5 text-phantom-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
@@ -141,7 +141,7 @@ export function Sidebar() {
         {userMenuOpen && (
           <div className="absolute bottom-full left-3 right-3 mb-2 bg-white rounded-xl shadow-lg border border-phantom-200/80 overflow-hidden z-50">
             <div className="px-3 py-2.5 border-b border-phantom-200/80">
-              <p className="text-[13px] font-semibold text-phantom-900">John Doe</p>
+              <p className="text-[13px] font-semibold text-phantom-900">Leave a Mark admin</p>
               <p className="text-[11px] text-phantom-500">john@leaveamark.agency</p>
             </div>
             <div className="py-1">
