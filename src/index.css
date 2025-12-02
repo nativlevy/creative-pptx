@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --color-phantom-50: #fafafa;
+  --color-phantom-100: #f4f4f5;
+  --color-phantom-200: #e4e4e7;
+  --color-phantom-300: #d4d4d8;
+  --color-phantom-400: #a1a1aa;
+  --color-phantom-500: #71717a;
+  --color-phantom-600: #52525b;
+  --color-phantom-700: #3f3f46;
+  --color-phantom-800: #27272a;
+  --color-phantom-900: #18181b;
+  --color-phantom-950: #09090b;
+}
+
+@layer base {
+  body {
+    @apply bg-phantom-50 text-phantom-900 antialiased font-sans;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    @apply border-phantom-200;
+  }
+}
+
+/* Custom scrollbar - Linear style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-phantom-300/60 rounded-full;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-phantom-400/80;
+}
+
+/* Focus ring styles */
+:focus-visible {
+  @apply outline-none ring-2 ring-violet-500/30 ring-offset-1;
+}
+
+/* Selection color */
+::selection {
+  @apply bg-violet-500/20;
+}
+
+/* Smooth transitions globally */
+button, a, input {
+  @apply transition-all duration-150;
+}
