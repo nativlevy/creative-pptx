@@ -16,8 +16,8 @@ app.use('/*', cors());
 // RAG routes
 app.route('/api/rag', ragRoutes);
 
-// Health check
-app.get('/', (c) => c.json({ status: 'ok', message: 'Leave a Mark API' }));
+// Health check (use /api/health for API, / will serve frontend in production)
+app.get('/api/health', (c) => c.json({ status: 'ok', message: 'Leave a Mark API' }));
 
 // ============ PROJECTS ============
 
@@ -229,11 +229,19 @@ app.post('/api/projects/:id/wizard', async (c) => {
 
 const isProduction = process.env.NODE_ENV === 'production' || existsSync('./dist');
 
-if (isProduction) {
-  // Serve static files from Vite build
-  app.use('/*', serveStatic({ root: './dist' }));
+if (isProduction && existsSync('./dist/index.html')) {
+  console.log('Production mode: serving static files from ./dist');
 
-  // SPA fallback - serve index.html for non-API routes
+  // Serve static assets (js, css, images, etc.)
+  app.use('/assets/*', serveStatic({ root: './dist' }));
+  app.use('/vite.svg', serveStatic({ root: './dist' }));
+
+  // Serve index.html for root and all non-API routes (SPA fallback)
+  app.get('/', (c) => {
+    const html = readFileSync('./dist/index.html', 'utf-8');
+    return c.html(html);
+  });
+
   app.get('*', (c) => {
     const path = c.req.path;
     if (!path.startsWith('/api')) {
@@ -242,6 +250,9 @@ if (isProduction) {
     }
     return c.notFound();
   });
+} else {
+  // Development mode - API only, frontend served by Vite
+  app.get('/', (c) => c.json({ status: 'ok', message: 'Leave a Mark API (dev mode - use Vite for frontend)' }));
 }
 
 // ============ START SERVER ============
