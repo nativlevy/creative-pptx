@@ -234,21 +234,29 @@ if (isProduction && existsSync('./dist/index.html')) {
 
   // Serve static assets (js, css, images, etc.)
   app.use('/assets/*', serveStatic({ root: './dist' }));
-  app.use('/vite.svg', serveStatic({ root: './dist' }));
 
-  // Serve index.html for root and all non-API routes (SPA fallback)
+  // Serve specific static files (json, svg, etc.)
+  app.get('/*.json', serveStatic({ root: './dist' }));
+  app.get('/*.svg', serveStatic({ root: './dist' }));
+  app.get('/*.ico', serveStatic({ root: './dist' }));
+  app.get('/*.png', serveStatic({ root: './dist' }));
+  app.get('/*.jpg', serveStatic({ root: './dist' }));
+
+  // Serve index.html for root
   app.get('/', (c) => {
     const html = readFileSync('./dist/index.html', 'utf-8');
     return c.html(html);
   });
 
+  // SPA fallback - serve index.html for all non-API, non-static routes
   app.get('*', (c) => {
     const path = c.req.path;
-    if (!path.startsWith('/api')) {
-      const html = readFileSync('./dist/index.html', 'utf-8');
-      return c.html(html);
+    // Skip API routes and static file extensions
+    if (path.startsWith('/api') || /\.[a-zA-Z0-9]+$/.test(path)) {
+      return c.notFound();
     }
-    return c.notFound();
+    const html = readFileSync('./dist/index.html', 'utf-8');
+    return c.html(html);
   });
 } else {
   // Development mode - API only, frontend served by Vite
