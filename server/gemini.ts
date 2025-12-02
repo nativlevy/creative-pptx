@@ -60,81 +60,305 @@ export async function createPptxBuffer(data: PresentationData): Promise<Buffer> 
   pptx.title = data.title;
   pptx.author = 'Leave a Mark';
   pptx.subject = data.subtitle || data.title;
+  pptx.layout = 'LAYOUT_16x9';
 
-  // Define color scheme
+  // Clean, minimal Linear-style palette - monochromatic
   const colors = {
-    primary: '2563EB',    // Blue
-    secondary: '1E40AF',  // Darker blue
-    accent: '3B82F6',     // Light blue
-    text: '1F2937',       // Dark gray
-    lightText: '6B7280',  // Medium gray
-    background: 'FFFFFF'
+    background: 'FFFFFF',       // Pure white
+    textPrimary: '000000',      // Pure black for titles
+    textBody: '374151',         // Dark gray for body text
+    textMuted: '9CA3AF',        // Light gray for secondary
+    textSubtle: 'D1D5DB',       // Very light gray
+    line: 'E5E7EB',             // Subtle divider lines
   };
 
-  for (const slide of data.slides) {
+  // Inter font (falls back to system fonts if not available)
+  const font = 'Inter';
+
+  const totalSlides = data.slides.length;
+
+  for (let i = 0; i < data.slides.length; i++) {
+    const slide = data.slides[i];
     const pptxSlide = pptx.addSlide();
+    const slideNum = i + 1;
+
+    // Clean white background
+    pptxSlide.background = { color: colors.background };
 
     if (slide.layout === 'title') {
-      // Title slide layout
+      // ==========================================
+      // TITLE SLIDE - Clean, centered hero
+      // ==========================================
+
+      // Main title - large, bold, black
       pptxSlide.addText(slide.title, {
-        x: 0.5,
-        y: 2.5,
-        w: '90%',
-        h: 1.5,
-        fontSize: 44,
-        fontFace: 'Arial',
-        color: colors.primary,
+        x: 0.8,
+        y: 2,
+        w: 11.4,
+        h: 1.4,
+        fontSize: 48,
+        fontFace: font,
+        color: colors.textPrimary,
         bold: true,
-        align: 'center',
-        valign: 'middle'
+        align: 'left',
+        valign: 'bottom',
       });
 
+      // Thin line under title
+      pptxSlide.addShape('rect', {
+        x: 0.8,
+        y: 3.5,
+        w: 1.5,
+        h: 0.02,
+        fill: { type: 'solid', color: colors.textPrimary },
+        line: { width: 0 },
+      });
+
+      // Subtitle
       if (slide.content && slide.content.length > 0) {
         pptxSlide.addText(slide.content[0], {
-          x: 0.5,
-          y: 4,
-          w: '90%',
-          h: 0.8,
-          fontSize: 24,
-          fontFace: 'Arial',
-          color: colors.lightText,
-          align: 'center',
-          valign: 'middle'
+          x: 0.8,
+          y: 3.7,
+          w: 8,
+          h: 0.7,
+          fontSize: 20,
+          fontFace: font,
+          color: colors.textMuted,
+          align: 'left',
+          valign: 'top',
         });
       }
-    } else {
-      // Content slide layout
-      pptxSlide.addText(slide.title, {
-        x: 0.5,
-        y: 0.3,
-        w: '90%',
-        h: 1,
-        fontSize: 32,
-        fontFace: 'Arial',
-        color: colors.primary,
-        bold: true
+
+      // Minimal branding at bottom
+      pptxSlide.addText('Leave a Mark', {
+        x: 0.8,
+        y: 4.9,
+        w: 2,
+        h: 0.3,
+        fontSize: 11,
+        fontFace: font,
+        color: colors.textSubtle,
       });
 
-      // Add bullet points
+    } else if (slide.layout === 'twoColumn') {
+      // ==========================================
+      // TWO-COLUMN SLIDE
+      // ==========================================
+
+      // Slide title
+      pptxSlide.addText(slide.title, {
+        x: 0.8,
+        y: 0.6,
+        w: 11.4,
+        h: 0.7,
+        fontSize: 28,
+        fontFace: font,
+        color: colors.textPrimary,
+        bold: true,
+        align: 'left',
+        valign: 'middle',
+      });
+
+      // Divider line
+      pptxSlide.addShape('rect', {
+        x: 0.8,
+        y: 1.4,
+        w: 11.4,
+        h: 0.01,
+        fill: { type: 'solid', color: colors.line },
+        line: { width: 0 },
+      });
+
+      // Split content
+      const midPoint = Math.ceil(slide.content.length / 2);
+      const leftContent = slide.content.slice(0, midPoint);
+      const rightContent = slide.content.slice(midPoint);
+
+      // Left column bullets
+      const leftBullets = leftContent.map(point => ({
+        text: point,
+        options: {
+          bullet: { type: 'bullet' as const, characterCode: '2022', color: colors.textMuted },
+          indentLevel: 0,
+          paraSpaceAfter: 12,
+        }
+      }));
+
+      pptxSlide.addText(leftBullets, {
+        x: 0.8,
+        y: 1.7,
+        w: 5.4,
+        h: 3,
+        fontSize: 16,
+        fontFace: font,
+        color: colors.textBody,
+        valign: 'top',
+        lineSpacingMultiple: 1.5,
+      });
+
+      // Right column bullets
+      const rightBullets = rightContent.map(point => ({
+        text: point,
+        options: {
+          bullet: { type: 'bullet' as const, characterCode: '2022', color: colors.textMuted },
+          indentLevel: 0,
+          paraSpaceAfter: 12,
+        }
+      }));
+
+      pptxSlide.addText(rightBullets, {
+        x: 6.6,
+        y: 1.7,
+        w: 5.4,
+        h: 3,
+        fontSize: 16,
+        fontFace: font,
+        color: colors.textBody,
+        valign: 'top',
+        lineSpacingMultiple: 1.5,
+      });
+
+      // Slide number
+      pptxSlide.addText(`${slideNum} / ${totalSlides}`, {
+        x: 11.2,
+        y: 5,
+        w: 1,
+        h: 0.3,
+        fontSize: 10,
+        fontFace: font,
+        color: colors.textSubtle,
+        align: 'right',
+      });
+
+    } else if (slide.layout === 'imageText' || i === data.slides.length - 1) {
+      // ==========================================
+      // CLOSING SLIDE - Simple and clear
+      // ==========================================
+
+      // Main title
+      pptxSlide.addText(slide.title, {
+        x: 0.8,
+        y: 1.8,
+        w: 11.4,
+        h: 1.2,
+        fontSize: 36,
+        fontFace: font,
+        color: colors.textPrimary,
+        bold: true,
+        align: 'left',
+        valign: 'middle',
+      });
+
+      // Line accent
+      pptxSlide.addShape('rect', {
+        x: 0.8,
+        y: 3.1,
+        w: 1.2,
+        h: 0.02,
+        fill: { type: 'solid', color: colors.textPrimary },
+        line: { width: 0 },
+      });
+
+      // CTA points
+      if (slide.content && slide.content.length > 0) {
+        const ctaPoints = slide.content.map(point => ({
+          text: point,
+          options: {
+            bullet: { type: 'bullet' as const, characterCode: '2192', color: colors.textMuted },
+            indentLevel: 0,
+            paraSpaceAfter: 10,
+          }
+        }));
+
+        pptxSlide.addText(ctaPoints, {
+          x: 0.8,
+          y: 3.3,
+          w: 10,
+          h: 1.5,
+          fontSize: 18,
+          fontFace: font,
+          color: colors.textBody,
+          valign: 'top',
+          lineSpacingMultiple: 1.4,
+        });
+      }
+
+      // Branding
+      pptxSlide.addText('Leave a Mark', {
+        x: 0.8,
+        y: 4.9,
+        w: 2,
+        h: 0.3,
+        fontSize: 11,
+        fontFace: font,
+        color: colors.textSubtle,
+      });
+
+    } else {
+      // ==========================================
+      // CONTENT SLIDE - Clean and readable
+      // ==========================================
+
+      // Slide title
+      pptxSlide.addText(slide.title, {
+        x: 0.8,
+        y: 0.6,
+        w: 11.4,
+        h: 0.7,
+        fontSize: 28,
+        fontFace: font,
+        color: colors.textPrimary,
+        bold: true,
+        align: 'left',
+        valign: 'middle',
+      });
+
+      // Subtle divider
+      pptxSlide.addShape('rect', {
+        x: 0.8,
+        y: 1.4,
+        w: 11.4,
+        h: 0.01,
+        fill: { type: 'solid', color: colors.line },
+        line: { width: 0 },
+      });
+
+      // Bullet points
       const bulletPoints = slide.content.map(point => ({
         text: point,
-        options: { bullet: { type: 'bullet' as const }, indentLevel: 0 }
+        options: {
+          bullet: { type: 'bullet' as const, characterCode: '2022', color: colors.textMuted },
+          indentLevel: 0,
+          paraSpaceAfter: 14,
+        }
       }));
 
       pptxSlide.addText(bulletPoints, {
-        x: 0.5,
-        y: 1.5,
-        w: '90%',
-        h: 4,
-        fontSize: 20,
-        fontFace: 'Arial',
-        color: colors.text,
+        x: 0.8,
+        y: 1.7,
+        w: 11.4,
+        h: 3,
+        fontSize: 18,
+        fontFace: font,
+        color: colors.textBody,
         valign: 'top',
-        lineSpacingMultiple: 1.5
+        lineSpacingMultiple: 1.6,
+      });
+
+      // Slide number
+      pptxSlide.addText(`${slideNum} / ${totalSlides}`, {
+        x: 11.2,
+        y: 5,
+        w: 1,
+        h: 0.3,
+        fontSize: 10,
+        fontFace: font,
+        color: colors.textSubtle,
+        align: 'right',
       });
     }
 
-    // Add speaker notes if available
+    // Add speaker notes
     if (slide.speakerNotes) {
       pptxSlide.addNotes(slide.speakerNotes);
     }

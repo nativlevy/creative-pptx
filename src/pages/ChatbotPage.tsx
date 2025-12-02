@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, Sparkles, Upload, FileText, Trash2, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { uploadDocument, getDocuments, deleteDocument, sendChatMessage, seedSampleData } from '../lib/api';
 import type { RagDocument, ChatMessage } from '../lib/rag-types';
 
@@ -26,6 +27,7 @@ export function ChatbotPage() {
   const [expandedSources, setExpandedSources] = useState<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     initializeDocuments();
@@ -161,6 +163,7 @@ export function ChatbotPage() {
               return updated;
             });
             setIsLoading(false);
+            setTimeout(() => inputRef.current?.focus(), 100);
           },
           onError: (error) => {
             console.error('Chat error:', error);
@@ -177,6 +180,7 @@ export function ChatbotPage() {
               return updated;
             });
             setIsLoading(false);
+            setTimeout(() => inputRef.current?.focus(), 100);
           }
         }
       );
@@ -195,6 +199,7 @@ export function ChatbotPage() {
         return updated;
       });
       setIsLoading(false);
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   };
 
@@ -374,10 +379,16 @@ export function ChatbotPage() {
                         ? 'bg-violet-500 text-white rounded-br-md'
                         : 'bg-white border border-phantom-200 text-phantom-700 rounded-bl-md'
                     }`}>
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {msg.content}
-                        {msg.isStreaming && <span className="animate-pulse">|</span>}
-                      </p>
+                      {msg.role === 'assistant' ? (
+                        <div className="text-sm leading-relaxed prose prose-sm prose-phantom max-w-none prose-p:my-1.5 prose-ul:my-1.5 prose-ol:my-1.5 prose-li:my-0.5 prose-headings:text-phantom-800 prose-headings:font-semibold prose-h1:text-base prose-h2:text-sm prose-h3:text-[13px] prose-code:text-violet-600 prose-code:bg-violet-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-[12px] prose-code:before:content-none prose-code:after:content-none prose-pre:bg-phantom-900 prose-pre:text-phantom-100 prose-pre:text-[12px] prose-a:text-violet-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-phantom-800">
+                          <ReactMarkdown>{msg.content}</ReactMarkdown>
+                          {msg.isStreaming && <span className="animate-pulse">|</span>}
+                        </div>
+                      ) : (
+                        <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                          {msg.content}
+                        </p>
+                      )}
                     </div>
 
                     {msg.sources && msg.sources.length > 0 && (
@@ -437,6 +448,7 @@ export function ChatbotPage() {
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-phantom-50 border border-phantom-200 focus-within:border-violet-400 focus-within:bg-white transition-all">
               <input
+                ref={inputRef}
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}

@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { streamSSE } from 'hono/streaming';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
-import { processDocument, getDocuments, deleteDocument, generateChatResponse, ChatMessage } from '../services/rag';
+import { processDocument, getDocuments, deleteDocument, generateChatResponse, getDocumentFile, ChatMessage } from '../services/rag';
 
 const ragRoutes = new Hono();
 
@@ -83,6 +83,32 @@ ragRoutes.delete('/documents/:id', async (c) => {
   } catch (error) {
     console.error('Delete document error:', error);
     return c.json({ error: 'Failed to delete document' }, 500);
+  }
+});
+
+/**
+ * Download original file
+ * GET /api/rag/documents/:id/download
+ */
+ragRoutes.get('/documents/:id/download', async (c) => {
+  try {
+    const id = c.req.param('id');
+    const file = await getDocumentFile(id);
+
+    if (!file) {
+      return c.json({ error: 'File not found' }, 404);
+    }
+
+    return new Response(file.buffer, {
+      headers: {
+        'Content-Type': file.mimeType,
+        'Content-Disposition': `attachment; filename="${file.filename}"`,
+        'Content-Length': file.buffer.length.toString()
+      }
+    });
+  } catch (error) {
+    console.error('Download file error:', error);
+    return c.json({ error: 'Failed to download file' }, 500);
   }
 });
 

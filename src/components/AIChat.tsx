@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, Sparkles, Upload, FileText, Trash2, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { uploadDocument, getDocuments, deleteDocument, sendChatMessage } from '../lib/api';
 import type { RagDocument, ChatMessage } from '../lib/rag-types';
 
@@ -42,6 +43,7 @@ export function AIChat() {
   const [expandedSources, setExpandedSources] = useState<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Load documents on mount
   useEffect(() => {
@@ -153,6 +155,8 @@ export function AIChat() {
               return updated;
             });
             setIsLoading(false);
+            // Auto-focus input after response
+            setTimeout(() => inputRef.current?.focus(), 100);
           },
           onError: (error) => {
             console.error('Chat error:', error);
@@ -169,6 +173,8 @@ export function AIChat() {
               return updated;
             });
             setIsLoading(false);
+            // Auto-focus input after error
+            setTimeout(() => inputRef.current?.focus(), 100);
           }
         }
       );
@@ -187,6 +193,8 @@ export function AIChat() {
         return updated;
       });
       setIsLoading(false);
+      // Auto-focus input after error
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   };
 
@@ -349,10 +357,16 @@ export function AIChat() {
                     </div>
                   )}
                   <div className="flex-1 pt-0.5">
-                    <p className="text-phantom-700 text-[13px] leading-relaxed whitespace-pre-wrap">
-                      {msg.content}
-                      {msg.isStreaming && <span className="animate-pulse">|</span>}
-                    </p>
+                    {msg.role === 'assistant' ? (
+                      <div className="text-phantom-700 text-[13px] leading-relaxed prose prose-sm prose-phantom max-w-none prose-p:my-1.5 prose-ul:my-1.5 prose-ol:my-1.5 prose-li:my-0.5 prose-headings:text-phantom-800 prose-headings:font-semibold prose-h1:text-base prose-h2:text-sm prose-h3:text-[13px] prose-code:text-violet-600 prose-code:bg-violet-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-[12px] prose-code:before:content-none prose-code:after:content-none prose-pre:bg-phantom-900 prose-pre:text-phantom-100 prose-pre:text-[12px] prose-a:text-violet-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-phantom-800">
+                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        {msg.isStreaming && <span className="animate-pulse">|</span>}
+                      </div>
+                    ) : (
+                      <p className="text-phantom-700 text-[13px] leading-relaxed whitespace-pre-wrap">
+                        {msg.content}
+                      </p>
+                    )}
 
                     {/* Sources */}
                     {msg.sources && msg.sources.length > 0 && (
@@ -407,6 +421,7 @@ export function AIChat() {
       <div className="p-3 border-t border-phantom-200/60">
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-phantom-50/80 border border-phantom-200/80 focus-within:border-violet-400 focus-within:bg-white transition-all">
           <input
+            ref={inputRef}
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}

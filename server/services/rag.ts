@@ -3,6 +3,7 @@ import { getDB, ObjectId } from '../db';
 import { generateEmbedding, cosineSimilarity } from './embeddings';
 import { extractText } from './extractors';
 import { chunkText, TextChunk } from './chunker';
+import { uploadFile, deleteFile, downloadFile } from './gridfs';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
@@ -13,6 +14,7 @@ export interface RagDocument {
   originalName: string;
   mimeType: string;
   fileSize: number;
+  fileId?: ObjectId; // GridFS file ID for original file
   status: 'processing' | 'ready' | 'error';
   errorMessage?: string;
   chunkCount: number;
@@ -79,6 +81,20 @@ export async function processDocument(
   const insertResult = await db.collection(DOCUMENTS_COLLECTION).insertOne(document);
   const documentId = insertResult.insertedId;
 
+  // Store original file in GridFS
+  console.log(`Storing original file in GridFS: ${filename}`);
+  const fileId = await uploadFile(buffer, filename, {
+    mimeType,
+    originalName: filename,
+    documentId
+  });
+
+  // Update document with fileId
+  await db.collection(DOCUMENTS_COLLECTION).updateOne(
+    { _id: documentId },
+    { $set: { fileId } }
+  );
+
   try {
     // Extract text
     console.log(`Extracting text from ${filename}...`);
@@ -137,6 +153,7 @@ export async function processDocument(
     return {
       ...document,
       _id: documentId,
+      fileId,
       status: 'ready',
       chunkCount: ragChunks.length
     };
@@ -325,9 +342,46 @@ export async function deleteDocument(documentId: string): Promise<void> {
   const db = await getDB();
   const objId = new ObjectId(documentId);
 
-  // Delete chunks first
+  // Get document to find fileId
+  const doc = await db.collection(DOCUMENTS_COLLECTION).findOne({ _id: objId });
+
+  // Delete GridFS file if it exists
+  if (doc?.fileId) {
+    try {
+      await deleteFile(doc.fileId);
+      console.log(`Deleted GridFS file: ${doc.fileId}`);
+    } catch (error) {
+      console.warn(`Failed to delete GridFS file: ${error}`);
+    }
+  }
+
+  // Delete chunks
   await db.collection(CHUNKS_COLLECTION).deleteMany({ documentId: objId });
 
   // Delete document
   await db.collection(DOCUMENTS_COLLECTION).deleteOne({ _id: objId });
+}
+
+/**
+ * Get the original file for a document
+ */
+export async function getDocumentFile(documentId: string): Promise<{
+  buffer: Buffer;
+  filename: string;
+  mimeType: string;
+} | null> {
+  const db = await getDB();
+  const objId = new ObjectId(documentId);
+
+  const doc = await db.collection(DOCUMENTS_COLLECTION).findOne({ _id: objId });
+  if (!doc || !doc.fileId) {
+    return null;
+  }
+
+  const file = await downloadFile(doc.fileId);
+  return {
+    buffer: file.buffer,
+    filename: doc.originalName,
+    mimeType: doc.mimeType
+  };
 }
