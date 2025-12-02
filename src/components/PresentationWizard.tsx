@@ -1585,7 +1585,8 @@ STORYBOARD:
 - Closing Statement: ${formData.storyboard.closingStatement}
       `.trim();
 
-      const response = await fetch('http://localhost:3001/api/generate-presentation', {
+      const apiBase = import.meta.env.DEV ? 'http://localhost:3001' : '';
+      const response = await fetch(`${apiBase}/api/generate-presentation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

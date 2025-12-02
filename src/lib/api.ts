@@ -1,4 +1,5 @@
-const API_BASE = 'http://localhost:3001';
+// Use relative URLs in production, localhost in development
+const API_BASE = import.meta.env.DEV ? 'http://localhost:3001' : '';
 
 export interface Project {
   _id: string;
