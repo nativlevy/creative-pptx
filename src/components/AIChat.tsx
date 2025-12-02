@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Ghost, Send, Sparkles, Upload, FileText, Trash2, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { Send, Sparkles, Upload, FileText, Trash2, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 import { uploadDocument, getDocuments, deleteDocument, sendChatMessage } from '../lib/api';
 import type { RagDocument, ChatMessage } from '../lib/rag-types';
 
@@ -213,7 +213,7 @@ export function AIChat() {
       {/* Header */}
       <div className="px-4 py-3 border-b border-phantom-200/60 bg-phantom-50/30">
         <div className="flex items-center justify-between mb-2.5">
-          <h3 className="text-phantom-900 font-semibold text-[13px]">Use the Phantom</h3>
+          <h3 className="text-phantom-900 font-semibold text-[13px]">Leave a Mark Brain</h3>
           <div className="flex items-center gap-2">
             <span className="text-[11px] text-phantom-500">
               {readyDocuments.length} doc{readyDocuments.length !== 1 ? 's' : ''}
@@ -230,12 +230,14 @@ export function AIChat() {
         {/* Agent Card */}
         <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/80 border border-phantom-200/80">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-sm">
-              <Ghost className="w-4 h-4 text-white" />
-            </div>
+            <img
+              src="https://leave-mark.com/pp/wp-content/uploads/2021/11/%D7%9C%D7%95%D7%92%D7%95-%D7%9C%D7%99%D7%91-%D7%90-%D7%90%D7%9E%D7%90%D7%A8%D7%A7-%D7%97%D7%93%D7%A9.png"
+              alt="Leave a Mark Brain"
+              className="w-9 h-9 object-contain"
+            />
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="text-phantom-900 text-[13px] font-medium">Phantom Brain</span>
+                <span className="text-phantom-900 text-[13px] font-medium">Leave a Mark Brain</span>
                 <Sparkles className="w-3 h-3 text-violet-500" />
               </div>
               <span className="text-phantom-500 text-[11px]">RAG-powered AI</span>
@@ -307,9 +309,11 @@ export function AIChat() {
           <>
             {/* Welcome Message */}
             <div className="flex gap-2.5 mb-5">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center flex-shrink-0 shadow-sm">
-                <Ghost className="w-3.5 h-3.5 text-white" />
-              </div>
+              <img
+                src="https://leave-mark.com/pp/wp-content/uploads/2021/11/%D7%9C%D7%95%D7%92%D7%95-%D7%9C%D7%99%D7%91-%D7%90-%D7%90%D7%9E%D7%90%D7%A8%D7%A7-%D7%97%D7%93%D7%A9.png"
+                alt="Leave a Mark Brain"
+                className="w-7 h-7 object-contain flex-shrink-0"
+              />
               <div className="flex-1 pt-0.5">
                 <p className="text-phantom-700 text-[13px] leading-relaxed">
                   {readyDocuments.length > 0
@@ -334,9 +338,11 @@ export function AIChat() {
               <div key={msg.id} className="mb-4">
                 <div className="flex gap-2.5">
                   {msg.role === 'assistant' ? (
-                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center flex-shrink-0 shadow-sm">
-                      <Ghost className="w-3.5 h-3.5 text-white" />
-                    </div>
+                    <img
+                      src="https://leave-mark.com/pp/wp-content/uploads/2021/11/%D7%9C%D7%95%D7%92%D7%95-%D7%9C%D7%99%D7%91-%D7%90-%D7%90%D7%9E%D7%90%D7%A8%D7%A7-%D7%97%D7%93%D7%A9.png"
+                      alt="Leave a Mark Brain"
+                      className="w-7 h-7 object-contain flex-shrink-0"
+                    />
                   ) : (
                     <div className="w-7 h-7 rounded-lg bg-phantom-200 flex items-center justify-center flex-shrink-0">
                       <span className="text-phantom-600 text-[11px] font-medium">You</span>

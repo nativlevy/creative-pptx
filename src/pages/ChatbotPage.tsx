@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Ghost, Send, Sparkles, Upload, FileText, Trash2, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
-import { uploadDocument, getDocuments, deleteDocument, sendChatMessage } from '../lib/api';
+import { Send, Sparkles, Upload, FileText, Trash2, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { uploadDocument, getDocuments, deleteDocument, sendChatMessage, seedSampleData } from '../lib/api';
 import type { RagDocument, ChatMessage } from '../lib/rag-types';
 
 function formatFileSize(bytes: number): string {
@@ -22,17 +22,45 @@ export function ChatbotPage() {
   const [documents, setDocuments] = useState<RagDocument[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isSeeding, setIsSeeding] = useState(false);
   const [expandedSources, setExpandedSources] = useState<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    loadDocuments();
+    initializeDocuments();
   }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  const initializeDocuments = async () => {
+    try {
+      const docs = await getDocuments();
+      if (docs.length === 0) {
+        // Auto-seed sample data if no documents exist
+        setIsSeeding(true);
+        try {
+          const result = await seedSampleData();
+          if (result.seeded) {
+            console.log('Sample data seeded:', result);
+            // Reload documents after seeding
+            const newDocs = await getDocuments();
+            setDocuments(newDocs);
+          }
+        } catch (seedError) {
+          console.error('Failed to seed sample data:', seedError);
+        } finally {
+          setIsSeeding(false);
+        }
+      } else {
+        setDocuments(docs);
+      }
+    } catch (error) {
+      console.error('Failed to load documents:', error);
+    }
+  };
 
   const loadDocuments = async () => {
     try {
@@ -272,12 +300,14 @@ export function ChatbotPage() {
         {/* Chat Header */}
         <div className="px-6 py-4 border-b border-phantom-200 bg-white/80 backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-sm">
-              <Ghost className="w-5 h-5 text-white" />
-            </div>
+            <img
+              src="https://leave-mark.com/pp/wp-content/uploads/2021/11/%D7%9C%D7%95%D7%92%D7%95-%D7%9C%D7%99%D7%91-%D7%90-%D7%90%D7%9E%D7%90%D7%A8%D7%A7-%D7%97%D7%93%D7%A9.png"
+              alt="Leave a Mark Brain"
+              className="w-10 h-10 object-contain"
+            />
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-semibold text-phantom-900">Phantom Brain</h1>
+                <h1 className="font-semibold text-phantom-900">Leave a Mark Brain</h1>
                 <Sparkles className="w-4 h-4 text-violet-500" />
               </div>
               <p className="text-xs text-phantom-500">
@@ -293,20 +323,29 @@ export function ChatbotPage() {
         <div className="flex-1 overflow-y-auto px-6 py-6">
           {messages.length === 0 ? (
             <div className="max-w-2xl mx-auto text-center py-16">
-              <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg">
-                <Ghost className="w-8 h-8 text-white" />
-              </div>
+              <img
+                src="https://leave-mark.com/pp/wp-content/uploads/2021/11/%D7%9C%D7%95%D7%92%D7%95-%D7%9C%D7%99%D7%91-%D7%90-%D7%90%D7%9E%D7%90%D7%A8%D7%A7-%D7%97%D7%93%D7%A9.png"
+                alt="Leave a Mark Brain"
+                className="w-16 h-16 mx-auto mb-5 object-contain"
+              />
               <h2 className="text-xl font-semibold text-phantom-900 mb-2">
-                Welcome to Phantom Brain
+                Welcome to Leave a Mark Brain
               </h2>
-              <p className="text-phantom-500 mb-8 max-w-md mx-auto">
-                {readyDocuments.length > 0
-                  ? 'Ask me anything about your uploaded documents. I\'ll find relevant information and help you craft insights.'
-                  : 'Upload some documents using the sidebar, then ask me questions about them.'}
-              </p>
-              {readyDocuments.length > 0 && (
+              {isSeeding ? (
+                <div className="flex items-center justify-center gap-2 text-phantom-500 mb-8">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Loading sample marketing content...</span>
+                </div>
+              ) : (
+                <p className="text-phantom-500 mb-8 max-w-md mx-auto">
+                  {readyDocuments.length > 0
+                    ? 'Ask me anything about Leave a Mark services, case studies, and marketing insights.'
+                    : 'Upload some documents using the sidebar, then ask me questions about them.'}
+                </p>
+              )}
+              {readyDocuments.length > 0 && !isSeeding && (
                 <div className="flex flex-wrap justify-center gap-2">
-                  {['Summarize all documents', 'What are the key insights?', 'Help me write a Big Idea'].map(suggestion => (
+                  {['What services does Leave a Mark offer?', 'Tell me about the case studies', 'What makes Leave a Mark different?'].map(suggestion => (
                     <button
                       key={suggestion}
                       onClick={() => setMessage(suggestion)}
@@ -323,9 +362,11 @@ export function ChatbotPage() {
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
                   {msg.role === 'assistant' && (
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center flex-shrink-0">
-                      <Ghost className="w-4 h-4 text-white" />
-                    </div>
+                    <img
+                      src="https://leave-mark.com/pp/wp-content/uploads/2021/11/%D7%9C%D7%95%D7%92%D7%95-%D7%9C%D7%99%D7%91-%D7%90-%D7%90%D7%9E%D7%90%D7%A8%D7%A7-%D7%97%D7%93%D7%A9.png"
+                      alt="Leave a Mark Brain"
+                      className="w-8 h-8 object-contain flex-shrink-0"
+                    />
                   )}
                   <div className={`flex-1 max-w-[80%] ${msg.role === 'user' ? 'text-right' : ''}`}>
                     <div className={`inline-block px-4 py-3 rounded-2xl ${

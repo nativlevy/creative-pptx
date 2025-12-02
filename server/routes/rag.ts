@@ -1,8 +1,17 @@
 import { Hono } from 'hono';
 import { streamSSE } from 'hono/streaming';
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 import { processDocument, getDocuments, deleteDocument, generateChatResponse, ChatMessage } from '../services/rag';
 
 const ragRoutes = new Hono();
+
+// Sample data files for seeding
+const SAMPLE_FILES = [
+  { name: 'leave-a-mark-about.md', description: 'About Leave a Mark Agency' },
+  { name: 'leave-a-mark-services.md', description: 'Services offered by Leave a Mark' },
+  { name: 'leave-a-mark-case-studies.md', description: 'Case studies and success stories' }
+];
 
 /**
  * Upload a document for RAG processing
@@ -111,6 +120,78 @@ ragRoutes.post('/chat', async (c) => {
   } catch (error) {
     console.error('Chat error:', error);
     return c.json({ error: 'Failed to process chat message' }, 500);
+  }
+});
+
+// Track if seeding is in progress to prevent race conditions
+let isSeedingInProgress = false;
+
+/**
+ * Seed sample marketing documents
+ * POST /api/rag/seed
+ */
+ragRoutes.post('/seed', async (c) => {
+  try {
+    // Prevent concurrent seeding
+    if (isSeedingInProgress) {
+      return c.json({
+        message: 'Seeding already in progress',
+        seeded: false
+      });
+    }
+
+    // Check if documents already exist
+    const existingDocs = await getDocuments();
+    if (existingDocs.length > 0) {
+      return c.json({
+        message: 'Sample data already loaded',
+        documentCount: existingDocs.length,
+        seeded: false
+      });
+    }
+
+    isSeedingInProgress = true;
+
+    const dataDir = join(process.cwd(), 'server', 'data');
+    const results = [];
+
+    for (const file of SAMPLE_FILES) {
+      const filePath = join(dataDir, file.name);
+
+      if (!existsSync(filePath)) {
+        console.warn(`Sample file not found: ${filePath}`);
+        continue;
+      }
+
+      console.log(`Seeding: ${file.name}`);
+      const content = readFileSync(filePath);
+      const buffer = Buffer.from(content);
+
+      try {
+        const document = await processDocument(
+          buffer,
+          file.name,
+          'text/markdown',
+          buffer.length
+        );
+        results.push({ name: file.name, status: 'success', documentId: document._id });
+        console.log(`Successfully seeded: ${file.name}`);
+      } catch (error) {
+        console.error(`Failed to seed ${file.name}:`, error);
+        results.push({ name: file.name, status: 'error', error: String(error) });
+      }
+    }
+
+    isSeedingInProgress = false;
+    return c.json({
+      message: 'Sample data seeded successfully',
+      results,
+      seeded: true
+    }, 201);
+  } catch (error) {
+    isSeedingInProgress = false;
+    console.error('Seed error:', error);
+    return c.json({ error: 'Failed to seed sample data' }, 500);
   }
 });
 

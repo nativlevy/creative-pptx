@@ -103,7 +103,7 @@ const defaultFramework: SlideSection[] = [
   }
 ];
 
-function StepIndicator({ step, label, number, currentStep, icon }: StepIndicatorProps) {
+function StepIndicator({ step: _step, label, number, currentStep, icon }: StepIndicatorProps) {
   const isActive = number === currentStep;
   const isComplete = number < currentStep;
 

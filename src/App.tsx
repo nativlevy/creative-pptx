@@ -4,8 +4,6 @@ import { Header } from './components/Header';
 import { DashboardPage } from './pages/DashboardPage';
 import { ProjectsPage } from './pages/ProjectsPage';
 import { ChatbotPage } from './pages/ChatbotPage';
-import { ClientsPage } from './pages/ClientsPage';
-import { TrainingPage } from './pages/TrainingPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { PresentationWizard } from './components/PresentationWizard';
 import { IdeaToPptx } from './components/IdeaToPptx';
@@ -30,8 +28,6 @@ function AppLayout() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/chatbot" element={<ChatbotPage />} />
-          <Route path="/clients" element={<ClientsPage />} />
-          <Route path="/training" element={<TrainingPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/wizard" element={<WizardWrapper />} />
           <Route path="/idea-to-pptx" element={<IdeaToPptxWrapper />} />

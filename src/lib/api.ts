@@ -153,6 +153,21 @@ export async function deleteDocument(id: string): Promise<void> {
   if (!res.ok) throw new Error('Failed to delete document');
 }
 
+export interface SeedResult {
+  message: string;
+  seeded: boolean;
+  documentCount?: number;
+  results?: Array<{ name: string; status: string; documentId?: string; error?: string }>;
+}
+
+export async function seedSampleData(): Promise<SeedResult> {
+  const res = await fetch(`${API_BASE}/api/rag/seed`, {
+    method: 'POST'
+  });
+  if (!res.ok) throw new Error('Failed to seed sample data');
+  return res.json();
+}
+
 export interface ChatStreamCallbacks {
   onSources?: (sources: ChatSource[]) => void;
   onToken?: (token: string) => void;
