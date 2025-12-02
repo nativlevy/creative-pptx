@@ -4,8 +4,8 @@ import {
   Sparkles,
   LayoutGrid,
   Download,
-  ArrowRight,
   ArrowLeft,
+  ArrowRight,
   Upload,
   CheckCircle2,
   Loader2,
@@ -39,66 +39,66 @@ interface SlideSection {
 const defaultFramework: SlideSection[] = [
   {
     id: 'intro',
-    name: 'INTRO',
+    name: 'הקדמה',
     color: 'text-gray-900',
     bgColor: 'bg-yellow-400',
     borderColor: 'border-yellow-500',
     slides: [
-      { id: 'hi', name: 'Hi', enabled: true },
-      { id: 'aperitif', name: 'Aperitif', enabled: true },
-      { id: 'team', name: 'Team', enabled: true },
-      { id: 'box', name: 'Box', enabled: true },
+      { id: 'hi', name: 'שלום', enabled: true },
+      { id: 'aperitif', name: 'פתיחה', enabled: true },
+      { id: 'team', name: 'צוות', enabled: true },
+      { id: 'box', name: 'תיבה', enabled: true },
     ]
   },
   {
     id: 'problem-solution',
-    name: 'PROBLEM / SOLUTION',
+    name: 'בעיה / פתרון',
     color: 'text-white',
     bgColor: 'bg-orange-500',
     borderColor: 'border-orange-600',
     slides: [
-      { id: 'orientation', name: 'Orientation', enabled: true },
-      { id: 'problem', name: 'Problem', enabled: true },
-      { id: 'solution', name: 'Solution', enabled: true },
-      { id: 'product', name: 'Product', enabled: true },
-      { id: 'features', name: 'Features', enabled: true },
-      { id: 'demo', name: 'Demo', enabled: false },
-      { id: 'technology', name: 'Technology', enabled: true },
-      { id: 'tech-moat', name: 'Tech Moat', enabled: false },
-      { id: 'use-case', name: 'Use Case', enabled: true },
-      { id: 'roadmap', name: 'Roadmap', enabled: true },
+      { id: 'orientation', name: 'אוריינטציה', enabled: true },
+      { id: 'problem', name: 'בעיה', enabled: true },
+      { id: 'solution', name: 'פתרון', enabled: true },
+      { id: 'product', name: 'מוצר', enabled: true },
+      { id: 'features', name: 'תכונות', enabled: true },
+      { id: 'demo', name: 'דמו', enabled: false },
+      { id: 'technology', name: 'טכנולוגיה', enabled: true },
+      { id: 'tech-moat', name: 'חפיר טכנולוגי', enabled: false },
+      { id: 'use-case', name: 'מקרה שימוש', enabled: true },
+      { id: 'roadmap', name: 'מפת דרכים', enabled: true },
     ]
   },
   {
     id: 'business',
-    name: 'BUSINESS',
+    name: 'עסקים',
     color: 'text-white',
     bgColor: 'bg-teal-600',
     borderColor: 'border-teal-700',
     slides: [
-      { id: 'business-status', name: 'Business Status', enabled: true },
-      { id: 'market', name: 'Market', enabled: true },
+      { id: 'business-status', name: 'מצב עסקי', enabled: true },
+      { id: 'market', name: 'שוק', enabled: true },
       { id: 'gtm', name: 'GTM', enabled: true },
-      { id: 'business-model', name: 'Business Model', enabled: true },
-      { id: 'unit-economic', name: 'Unit Economic', enabled: false },
-      { id: 'competition', name: 'Competition', enabled: true },
-      { id: 'growth', name: 'Growth', enabled: true },
-      { id: 'profitability', name: 'Profitability', enabled: false },
-      { id: 'growth-engines', name: 'Growth Engines', enabled: false },
-      { id: 'financial-forecast', name: 'Financial Forecast', enabled: true },
+      { id: 'business-model', name: 'מודל עסקי', enabled: true },
+      { id: 'unit-economic', name: 'כלכלת יחידה', enabled: false },
+      { id: 'competition', name: 'תחרות', enabled: true },
+      { id: 'growth', name: 'צמיחה', enabled: true },
+      { id: 'profitability', name: 'רווחיות', enabled: false },
+      { id: 'growth-engines', name: 'מנועי צמיחה', enabled: false },
+      { id: 'financial-forecast', name: 'תחזית פיננסית', enabled: true },
     ]
   },
   {
     id: 'close',
-    name: 'CLOSE',
+    name: 'סיום',
     color: 'text-gray-900',
     bgColor: 'bg-pink-300',
     borderColor: 'border-pink-400',
     slides: [
-      { id: 'traction', name: 'Traction', enabled: true },
-      { id: 'killer-slide', name: 'Killer Slide', enabled: true },
-      { id: 'ask', name: 'Ask', enabled: true },
-      { id: 'bye', name: 'Bye', enabled: true },
+      { id: 'traction', name: 'טראקשן', enabled: true },
+      { id: 'killer-slide', name: 'שקף קילר', enabled: true },
+      { id: 'ask', name: 'בקשה', enabled: true },
+      { id: 'bye', name: 'להתראות', enabled: true },
     ]
   }
 ];
@@ -159,14 +159,14 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
     setIsProcessing(true);
     setTimeout(() => {
       setKeyPoints([
-        'AI-powered productivity platform for enterprise teams',
-        'Problem: Teams waste 30% of time on repetitive tasks',
-        'Solution: Automated workflows with natural language commands',
-        '$2.5M ARR with 150% YoY growth',
-        'Target market: $45B enterprise productivity software',
-        'Seeking $8M Series A for go-to-market expansion',
-        'Team: Ex-Google, Stripe, Notion leadership',
-        'Key differentiator: 10x faster deployment than competitors'
+        'פלטפורמת פרודוקטיביות מונעת AI לצוותים ארגוניים',
+        'בעיה: צוותים מבזבזים 30% מהזמן על משימות חוזרות',
+        'פתרון: אוטומציה של זרימות עבודה עם פקודות בשפה טבעית',
+        'הכנסה שנתית חוזרת של $2.5M עם צמיחה של 150% שנה-על-שנה',
+        'שוק יעד: $45B בתוכנות פרודוקטיביות ארגוניות',
+        'מחפשים $8M ב-Series A להרחבת go-to-market',
+        'צוות: מנהיגים לשעבר מ-Google, Stripe, Notion',
+        'יתרון מבדל מרכזי: פריסה מהירה פי 10 מהמתחרים'
       ]);
       setIsProcessing(false);
       setCurrentStep(2);
@@ -219,7 +219,7 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
           <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center">
             <Ghost className="w-4 h-4 text-white" />
           </div>
-          <span className="text-white font-semibold">Transcript to Deck</span>
+          <span className="text-white font-semibold">מתמליל למצגת</span>
         </div>
         <button
           onClick={onClose}
@@ -234,7 +234,7 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <StepIndicator
             step="input"
-            label="Input Transcript"
+            label="הזנת תמליל"
             number={1}
             currentStep={currentStep}
             icon={<FileText className="w-5 h-5" />}
@@ -242,7 +242,7 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
           <div className="flex-1 h-px bg-white/5 mx-4" />
           <StepIndicator
             step="analyze"
-            label="Extract Insights"
+            label="חילוץ תובנות"
             number={2}
             currentStep={currentStep}
             icon={<Sparkles className="w-5 h-5" />}
@@ -250,7 +250,7 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
           <div className="flex-1 h-px bg-white/5 mx-4" />
           <StepIndicator
             step="structure"
-            label="Build Structure"
+            label="בניית מבנה"
             number={3}
             currentStep={currentStep}
             icon={<LayoutGrid className="w-5 h-5" />}
@@ -258,7 +258,7 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
           <div className="flex-1 h-px bg-white/5 mx-4" />
           <StepIndicator
             step="export"
-            label="Export Deck"
+            label="ייצוא מצגת"
             number={4}
             currentStep={currentStep}
             icon={<Download className="w-5 h-5" />}
@@ -274,10 +274,10 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-semibold text-white mb-2">
-                  Paste your meeting transcript
+                  הדביקו את תמליל הפגישה שלכם
                 </h2>
                 <p className="text-phantom-400">
-                  Our AI will analyze the conversation and extract key insights to build your pitch deck.
+                  ה-AI שלנו ינתח את השיחה ויחלץ תובנות מפתח לבניית מצגת הפיץ' שלכם.
                 </p>
               </div>
 
@@ -285,13 +285,13 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
                 <textarea
                   value={transcript}
                   onChange={(e) => setTranscript(e.target.value)}
-                  placeholder="Paste your meeting transcript here... Include any notes about the client's product, market, traction, team, and fundraising goals."
+                  placeholder="הדביקו את תמליל הפגישה כאן... כללו כל הערות על המוצר של הלקוח, שוק, טראקשן, צוות ומטרות גיוס."
                   className="w-full h-80 p-4 rounded-xl bg-phantom-900/50 border border-white/5 focus:border-violet-500/50 text-white placeholder-phantom-500 text-sm leading-relaxed resize-none focus:outline-none transition-colors"
                 />
-                <div className="absolute bottom-4 right-4 flex items-center gap-2">
+                <div className="absolute bottom-4 left-4 flex items-center gap-2">
                   <button className="flex items-center gap-2 px-3 py-1.5 text-xs text-phantom-400 bg-phantom-800/50 hover:bg-phantom-800 rounded-lg transition-colors">
                     <Upload className="w-3 h-3" />
-                    Upload file
+                    העלאת קובץ
                   </button>
                 </div>
               </div>
@@ -309,12 +309,12 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
                   {isProcessing ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      Analyzing...
+                      מנתח...
                     </>
                   ) : (
                     <>
-                      Analyze Transcript
-                      <ArrowRight className="w-4 h-4" />
+                      ניתוח תמליל
+                      <ArrowLeft className="w-4 h-4" />
                     </>
                   )}
                 </button>
@@ -327,10 +327,10 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-semibold text-white mb-2">
-                  Key insights extracted
+                  תובנות מפתח שחולצו
                 </h2>
                 <p className="text-phantom-400">
-                  Review and edit the key points we identified from your transcript.
+                  סקרו וערכו את הנקודות המרכזיות שזיהינו מהתמליל שלכם.
                 </p>
               </div>
 
@@ -367,7 +367,7 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
                   className="flex items-center gap-2 p-4 rounded-xl border border-dashed border-white/10 text-phantom-500 hover:text-white hover:border-white/20 transition-colors w-full justify-center"
                 >
                   <Plus className="w-4 h-4" />
-                  Add insight
+                  הוסף תובנה
                 </button>
               </div>
 
@@ -376,8 +376,8 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
                   onClick={() => setCurrentStep(1)}
                   className="flex items-center gap-2 px-4 py-2 text-phantom-400 hover:text-white transition-colors"
                 >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back
+                  <ArrowRight className="w-4 h-4" />
+                  חזרה
                 </button>
                 <button
                   onClick={handleStructure}
@@ -387,12 +387,12 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
                   {isProcessing ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      Building structure...
+                      בונה מבנה...
                     </>
                   ) : (
                     <>
-                      Generate Structure
-                      <ArrowRight className="w-4 h-4" />
+                      יצירת מבנה
+                      <ArrowLeft className="w-4 h-4" />
                     </>
                   )}
                 </button>
@@ -406,10 +406,10 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-semibold text-white mb-2">
-                    Pitch deck structure
+                    מבנה מצגת הפיץ'
                   </h2>
                   <p className="text-phantom-400">
-                    Toggle slides on/off to customize your deck. Selected: {enabledSlideCount} slides
+                    הפעילו/כבו שקפים להתאמת המצגת. נבחרו: {enabledSlideCount} שקפים
                   </p>
                 </div>
               </div>
@@ -467,8 +467,8 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
                   onClick={() => setCurrentStep(2)}
                   className="flex items-center gap-2 px-4 py-2 text-phantom-400 hover:text-white transition-colors"
                 >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back
+                  <ArrowRight className="w-4 h-4" />
+                  חזרה
                 </button>
                 <button
                   onClick={handleExport}
@@ -478,12 +478,12 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
                   {isProcessing ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      Generating PPTX...
+                      מייצר PPTX...
                     </>
                   ) : (
                     <>
                       <Download className="w-4 h-4" />
-                      Export {enabledSlideCount} slides
+                      ייצוא {enabledSlideCount} שקפים
                     </>
                   )}
                 </button>
@@ -499,10 +499,10 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
               </div>
               <div className="text-center">
                 <h2 className="text-2xl font-semibold text-white mb-2">
-                  Your pitch deck is ready!
+                  מצגת הפיץ' שלכם מוכנה!
                 </h2>
                 <p className="text-phantom-400">
-                  {enabledSlideCount} slides generated and downloading now.
+                  {enabledSlideCount} שקפים נוצרו ומורידים כעת.
                 </p>
               </div>
               <div className="flex items-center gap-4">
@@ -510,11 +510,11 @@ export function TranscriptFlow({ onClose }: { onClose: () => void }) {
                   onClick={onClose}
                   className="px-6 py-3 rounded-xl bg-phantom-800 text-white font-medium hover:bg-phantom-700 transition-colors"
                 >
-                  Back to Dashboard
+                  חזרה ללוח הבקרה
                 </button>
                 <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-violet-500 text-white font-medium hover:bg-violet-600 transition-colors">
                   <Download className="w-4 h-4" />
-                  Download Again
+                  הורדה שוב
                 </button>
               </div>
             </div>

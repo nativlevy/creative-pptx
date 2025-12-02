@@ -11,16 +11,16 @@ interface SearchResult {
 }
 
 const searchResults: SearchResult[] = [
-  { id: '1', title: 'Dashboard', type: 'page', icon: <FileText className="w-4 h-4" />, path: '/' },
-  { id: '2', title: 'My Projects', type: 'page', icon: <Folder className="w-4 h-4" />, path: '/projects' },
-  { id: '3', title: 'AI Chatbot', type: 'page', icon: <MessageSquare className="w-4 h-4" />, path: '/chatbot' },
-  { id: '4', title: 'Settings', type: 'page', icon: <Settings className="w-4 h-4" />, path: '/settings' },
+  { id: '1', title: 'לוח בקרה', type: 'page', icon: <FileText className="w-4 h-4" />, path: '/' },
+  { id: '2', title: 'הפרויקטים שלי', type: 'page', icon: <Folder className="w-4 h-4" />, path: '/projects' },
+  { id: '3', title: 'צ\'אטבוט AI', type: 'page', icon: <MessageSquare className="w-4 h-4" />, path: '/chatbot' },
+  { id: '4', title: 'הגדרות', type: 'page', icon: <Settings className="w-4 h-4" />, path: '/settings' },
 ];
 
 const notifications = [
-  { id: '1', title: 'Presentation ready', message: 'Your "Brand Strategy 2024" deck has been generated', time: '5 min ago', unread: true },
-  { id: '2', title: 'New client brief uploaded', message: 'TechStart Ltd. brand guidelines are now available', time: '2 hours ago', unread: true },
-  { id: '3', title: 'Export successful', message: 'Campaign pitch deck exported to PPTX', time: '1 day ago', unread: false },
+  { id: '1', title: 'המצגת מוכנה', message: 'המצגת "אסטרטגיית מותג 2024" שלך נוצרה', time: 'לפני 5 דקות', unread: true },
+  { id: '2', title: 'בריף לקוח חדש הועלה', message: 'הנחיות המותג של TechStart Ltd. זמינות כעת', time: 'לפני שעתיים', unread: true },
+  { id: '3', title: 'הייצוא הצליח', message: 'מצגת הפיץ\' לקמפיין יוצאה ל-PPTX', time: 'לפני יום', unread: false },
 ];
 
 export function Header() {
@@ -87,10 +87,10 @@ export function Header() {
         {/* Search / Command Bar */}
         <button
           onClick={() => setSearchOpen(true)}
-          className="flex items-center gap-2 px-3 py-1.5 text-phantom-400 hover:text-phantom-600 bg-phantom-100/60 hover:bg-phantom-100 border border-phantom-200/80 rounded-lg transition-all"
+          className="flex items-center gap-2 px-4 py-1.5 text-phantom-400 hover:text-phantom-600 bg-phantom-100/60 hover:bg-phantom-100 border border-phantom-200/80 rounded-lg transition-all min-w-[280px]"
         >
           <Search className="w-3.5 h-3.5" />
-          <span className="text-[13px]">Search...</span>
+          <span className="text-[13px]">חיפוש...</span>
           <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-medium text-phantom-400 bg-white border border-phantom-200 rounded">
             <span>⌘</span><span>K</span>
           </kbd>
@@ -111,9 +111,9 @@ export function Header() {
             </button>
 
             {notificationsOpen && (
-              <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-lg border border-phantom-200/80 overflow-hidden z-50">
+              <div className="absolute left-0 top-full mt-2 w-80 bg-white rounded-xl shadow-lg border border-phantom-200/80 overflow-hidden z-50">
                 <div className="px-4 py-3 border-b border-phantom-200/80">
-                  <h3 className="text-[14px] font-semibold text-phantom-900">Notifications</h3>
+                  <h3 className="text-[14px] font-semibold text-phantom-900">התראות</h3>
                 </div>
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.map(notification => (
@@ -125,7 +125,7 @@ export function Header() {
                         {notification.unread && (
                           <span className="w-2 h-2 mt-1.5 bg-violet-500 rounded-full flex-shrink-0"></span>
                         )}
-                        <div className={notification.unread ? '' : 'ml-5'}>
+                        <div className={notification.unread ? '' : 'mr-5'}>
                           <p className="text-[13px] font-medium text-phantom-900">{notification.title}</p>
                           <p className="text-[12px] text-phantom-500 mt-0.5">{notification.message}</p>
                           <p className="text-[11px] text-phantom-400 mt-1">{notification.time}</p>
@@ -136,7 +136,7 @@ export function Header() {
                 </div>
                 <div className="px-4 py-2 bg-phantom-50/50">
                   <button className="text-[12px] text-violet-600 hover:text-violet-700 font-medium">
-                    Mark all as read
+                    סמן הכל כנקרא
                   </button>
                 </div>
               </div>
@@ -152,13 +152,13 @@ export function Header() {
               }}
               className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-white text-[11px] font-semibold shadow-sm hover:shadow-md transition-shadow"
             >
-              JD
+              מנ
             </button>
 
             {userMenuOpen && (
-              <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-lg border border-phantom-200/80 overflow-hidden z-50">
+              <div className="absolute left-0 top-full mt-2 w-56 bg-white rounded-xl shadow-lg border border-phantom-200/80 overflow-hidden z-50">
                 <div className="px-4 py-3 border-b border-phantom-200/80">
-                  <p className="text-[13px] font-semibold text-phantom-900">Leave a Mark admin</p>
+                  <p className="text-[13px] font-semibold text-phantom-900">מנהל Leave a Mark</p>
                   <p className="text-[12px] text-phantom-500">john@leaveamark.agency</p>
                 </div>
                 <div className="py-1">
@@ -170,7 +170,7 @@ export function Header() {
                     className="w-full flex items-center gap-2.5 px-4 py-2 text-[13px] text-phantom-700 hover:bg-phantom-50 transition-colors"
                   >
                     <User className="w-4 h-4 text-phantom-400" />
-                    Profile
+                    פרופיל
                   </button>
                   <button
                     onClick={() => {
@@ -180,20 +180,20 @@ export function Header() {
                     className="w-full flex items-center gap-2.5 px-4 py-2 text-[13px] text-phantom-700 hover:bg-phantom-50 transition-colors"
                   >
                     <Settings className="w-4 h-4 text-phantom-400" />
-                    Settings
+                    הגדרות
                   </button>
                   <button className="w-full flex items-center gap-2.5 px-4 py-2 text-[13px] text-phantom-700 hover:bg-phantom-50 transition-colors">
                     <CreditCard className="w-4 h-4 text-phantom-400" />
-                    Billing
+                    חיוב
                   </button>
                 </div>
                 <div className="py-1 border-t border-phantom-200/80">
                   <button
-                    onClick={() => alert('Signing out...')}
+                    onClick={() => alert('מתנתק...')}
                     className="w-full flex items-center gap-2.5 px-4 py-2 text-[13px] text-red-600 hover:bg-red-50 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
-                    Sign out
+                    התנתקות
                   </button>
                 </div>
               </div>
@@ -217,7 +217,7 @@ export function Header() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search pages and projects..."
+                placeholder="חפש עמודים ופרויקטים..."
                 className="flex-1 text-[14px] text-phantom-900 placeholder:text-phantom-400 outline-none"
               />
               <button
@@ -231,13 +231,13 @@ export function Header() {
               {filteredResults.length > 0 ? (
                 <div className="py-2">
                   <div className="px-3 py-1.5">
-                    <span className="text-[11px] font-medium text-phantom-400 uppercase tracking-wider">Pages</span>
+                    <span className="text-[11px] font-medium text-phantom-400 uppercase tracking-wider">עמודים</span>
                   </div>
                   {filteredResults.map(result => (
                     <button
                       key={result.id}
                       onClick={() => handleSearchSelect(result)}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-phantom-50 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-right hover:bg-phantom-50 transition-colors"
                     >
                       <span className="text-phantom-400">{result.icon}</span>
                       <span className="text-[13px] text-phantom-900">{result.title}</span>
@@ -246,16 +246,16 @@ export function Header() {
                 </div>
               ) : (
                 <div className="px-4 py-8 text-center">
-                  <p className="text-[13px] text-phantom-500">No results found</p>
+                  <p className="text-[13px] text-phantom-500">לא נמצאו תוצאות</p>
                 </div>
               )}
             </div>
             <div className="px-4 py-2.5 bg-phantom-50/50 border-t border-phantom-200/80 flex items-center gap-4">
               <span className="text-[11px] text-phantom-400">
-                <kbd className="px-1.5 py-0.5 bg-white border border-phantom-200 rounded text-[10px]">↵</kbd> to select
+                <kbd className="px-1.5 py-0.5 bg-white border border-phantom-200 rounded text-[10px]">↵</kbd> לבחירה
               </span>
               <span className="text-[11px] text-phantom-400">
-                <kbd className="px-1.5 py-0.5 bg-white border border-phantom-200 rounded text-[10px]">esc</kbd> to close
+                <kbd className="px-1.5 py-0.5 bg-white border border-phantom-200 rounded text-[10px]">esc</kbd> לסגירה
               </span>
             </div>
           </div>

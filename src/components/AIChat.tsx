@@ -75,7 +75,7 @@ export function AIChat() {
       setShowDocuments(true);
     } catch (error) {
       console.error('Upload failed:', error);
-      alert(error instanceof Error ? error.message : 'Upload failed');
+      alert(error instanceof Error ? error.message : 'ההעלאה נכשלה');
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) {
@@ -166,7 +166,7 @@ export function AIChat() {
               if (updated[lastIndex]?.role === 'assistant') {
                 updated[lastIndex] = {
                   ...updated[lastIndex],
-                  content: 'Sorry, an error occurred. Please try again.',
+                  content: 'מצטערים, אירעה שגיאה. אנא נסו שוב.',
                   isStreaming: false
                 };
               }
@@ -186,7 +186,7 @@ export function AIChat() {
         if (updated[lastIndex]?.role === 'assistant') {
           updated[lastIndex] = {
             ...updated[lastIndex],
-            content: 'Sorry, an error occurred. Please try again.',
+            content: 'מצטערים, אירעה שגיאה. אנא נסו שוב.',
             isStreaming: false
           };
         }
@@ -224,7 +224,7 @@ export function AIChat() {
           <h3 className="text-phantom-900 font-semibold text-[13px]">Leave a Mark Brain</h3>
           <div className="flex items-center gap-2">
             <span className="text-[11px] text-phantom-500">
-              {readyDocuments.length} doc{readyDocuments.length !== 1 ? 's' : ''}
+              {readyDocuments.length} מסמך{readyDocuments.length !== 1 ? 'ים' : ''}
             </span>
             <button
               onClick={() => setShowDocuments(!showDocuments)}
@@ -248,7 +248,7 @@ export function AIChat() {
                 <span className="text-phantom-900 text-[13px] font-medium">Leave a Mark Brain</span>
                 <Sparkles className="w-3 h-3 text-violet-500" />
               </div>
-              <span className="text-phantom-500 text-[11px]">RAG-powered AI</span>
+              <span className="text-phantom-500 text-[11px]">AI מבוסס RAG</span>
             </div>
           </div>
           <input
@@ -268,7 +268,7 @@ export function AIChat() {
             ) : (
               <Upload className="w-3.5 h-3.5" />
             )}
-            {isUploading ? 'Uploading...' : 'Upload'}
+            {isUploading ? 'מעלה...' : 'העלאה'}
           </button>
         </div>
 
@@ -277,7 +277,7 @@ export function AIChat() {
           <div className="mt-2.5 p-2.5 rounded-lg bg-white/60 border border-phantom-200/80 max-h-40 overflow-y-auto">
             {documents.length === 0 ? (
               <p className="text-phantom-400 text-[11px] text-center py-2">
-                No documents uploaded yet
+                עדיין לא הועלו מסמכים
               </p>
             ) : (
               <div className="space-y-1.5">
@@ -291,9 +291,9 @@ export function AIChat() {
                       <div className="min-w-0">
                         <p className="text-[11px] text-phantom-800 truncate">{doc.originalName}</p>
                         <p className="text-[10px] text-phantom-400">
-                          {formatFileSize(doc.fileSize)} • {doc.chunkCount} chunks
-                          {doc.status === 'processing' && ' • Processing...'}
-                          {doc.status === 'error' && ' • Error'}
+                          {formatFileSize(doc.fileSize)} • {doc.chunkCount} חלקים
+                          {doc.status === 'processing' && ' • מעבד...'}
+                          {doc.status === 'error' && ' • שגיאה'}
                         </p>
                       </div>
                     </div>
@@ -325,18 +325,18 @@ export function AIChat() {
               <div className="flex-1 pt-0.5">
                 <p className="text-phantom-700 text-[13px] leading-relaxed">
                   {readyDocuments.length > 0
-                    ? `I have access to ${readyDocuments.length} document${readyDocuments.length !== 1 ? 's' : ''}. Ask me anything about them!`
-                    : 'Upload some documents and I\'ll help you find insights and craft perfect presentations.'}
+                    ? `יש לי גישה ל-${readyDocuments.length} מסמך${readyDocuments.length !== 1 ? 'ים' : ''}. שאלו אותי כל שאלה!`
+                    : 'העלו מסמכים ואעזור לכם למצוא תובנות וליצור מצגות מושלמות.'}
                 </p>
               </div>
             </div>
 
             {/* Suggestion Chips */}
             <div className="flex flex-wrap gap-1.5">
-              <SuggestionChip text="Summarize all documents" onClick={() => handleSuggestionClick('Summarize all the documents')} />
-              <SuggestionChip text="Find key insights" onClick={() => handleSuggestionClick('What are the key insights from these documents?')} />
-              <SuggestionChip text="Help me write a Big Idea" onClick={() => handleSuggestionClick('Help me write a Big Idea based on these documents')} />
-              <SuggestionChip text="What are the main topics?" onClick={() => handleSuggestionClick('What are the main topics discussed in the documents?')} />
+              <SuggestionChip text="סכם את כל המסמכים" onClick={() => handleSuggestionClick('סכם את כל המסמכים')} />
+              <SuggestionChip text="מצא תובנות מרכזיות" onClick={() => handleSuggestionClick('מהן התובנות המרכזיות מהמסמכים האלה?')} />
+              <SuggestionChip text="עזור לי לכתוב רעיון גדול" onClick={() => handleSuggestionClick('עזור לי לכתוב רעיון גדול בהתבסס על המסמכים האלה')} />
+              <SuggestionChip text="מהם הנושאים העיקריים?" onClick={() => handleSuggestionClick('מהם הנושאים העיקריים הנדונים במסמכים?')} />
             </div>
           </>
         ) : (
@@ -353,7 +353,7 @@ export function AIChat() {
                     />
                   ) : (
                     <div className="w-7 h-7 rounded-lg bg-phantom-200 flex items-center justify-center flex-shrink-0">
-                      <span className="text-phantom-600 text-[11px] font-medium">You</span>
+                      <span className="text-phantom-600 text-[11px] font-medium">אני</span>
                     </div>
                   )}
                   <div className="flex-1 pt-0.5">
@@ -376,7 +376,7 @@ export function AIChat() {
                           className="flex items-center gap-1 text-[11px] text-violet-600 hover:text-violet-700"
                         >
                           <FileText className="w-3 h-3" />
-                          {msg.sources.length} source{msg.sources.length !== 1 ? 's' : ''}
+                          {msg.sources.length} מקור{msg.sources.length !== 1 ? 'ות' : ''}
                           {expandedSources.has(msg.id) ? (
                             <ChevronUp className="w-3 h-3" />
                           ) : (
@@ -396,7 +396,7 @@ export function AIChat() {
                                     {source.filename}
                                   </span>
                                   <span className="text-[9px] text-phantom-400">
-                                    ({(source.score * 100).toFixed(0)}% match)
+                                    ({(source.score * 100).toFixed(0)}% התאמה)
                                   </span>
                                 </div>
                                 <p className="text-[11px] text-phantom-500 line-clamp-3">
@@ -426,7 +426,7 @@ export function AIChat() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-            placeholder={readyDocuments.length > 0 ? 'Ask about your documents...' : 'Upload documents to get started...'}
+            placeholder={readyDocuments.length > 0 ? 'שאלו על המסמכים שלכם...' : 'העלו מסמכים כדי להתחיל...'}
             className="flex-1 bg-transparent text-phantom-900 text-[13px] placeholder-phantom-400 focus:outline-none"
             disabled={isLoading}
           />

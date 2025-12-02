@@ -83,7 +83,7 @@ export function ChatbotPage() {
       await loadDocuments();
     } catch (error) {
       console.error('Upload failed:', error);
-      alert(error instanceof Error ? error.message : 'Upload failed');
+      alert(error instanceof Error ? error.message : 'ההעלאה נכשלה');
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) {
@@ -173,7 +173,7 @@ export function ChatbotPage() {
               if (updated[lastIndex]?.role === 'assistant') {
                 updated[lastIndex] = {
                   ...updated[lastIndex],
-                  content: 'Sorry, an error occurred. Please try again.',
+                  content: 'מצטערים, אירעה שגיאה. אנא נסו שוב.',
                   isStreaming: false
                 };
               }
@@ -192,7 +192,7 @@ export function ChatbotPage() {
         if (updated[lastIndex]?.role === 'assistant') {
           updated[lastIndex] = {
             ...updated[lastIndex],
-            content: 'Sorry, an error occurred. Please try again.',
+            content: 'מצטערים, אירעה שגיאה. אנא נסו שוב.',
             isStreaming: false
           };
         }
@@ -220,10 +220,10 @@ export function ChatbotPage() {
   return (
     <div className="flex-1 flex overflow-hidden">
       {/* Documents Sidebar */}
-      <div className="w-72 border-r border-phantom-200 bg-white/50 flex flex-col">
+      <div className="w-72 border-l border-phantom-200 bg-white/50 flex flex-col">
         <div className="p-4 border-b border-phantom-200">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold text-phantom-900">Documents</h2>
+            <h2 className="font-semibold text-phantom-900">מסמכים</h2>
             <span className="text-xs text-phantom-500 bg-phantom-100 px-2 py-0.5 rounded-full">
               {readyDocuments.length}
             </span>
@@ -245,10 +245,10 @@ export function ChatbotPage() {
             ) : (
               <Upload className="w-4 h-4" />
             )}
-            {isUploading ? 'Processing...' : 'Upload Document'}
+            {isUploading ? 'מעבד...' : 'העלה מסמך'}
           </button>
           <p className="text-[10px] text-phantom-400 mt-2 text-center">
-            PDF, PPTX, TXT, MD supported
+            PDF, PPTX, TXT, MD נתמכים
           </p>
         </div>
 
@@ -256,8 +256,8 @@ export function ChatbotPage() {
           {documents.length === 0 ? (
             <div className="text-center py-8">
               <FileText className="w-10 h-10 text-phantom-300 mx-auto mb-3" />
-              <p className="text-sm text-phantom-500">No documents yet</p>
-              <p className="text-xs text-phantom-400 mt-1">Upload files to get started</p>
+              <p className="text-sm text-phantom-500">אין עדיין מסמכים</p>
+              <p className="text-xs text-phantom-400 mt-1">העלו קבצים כדי להתחיל</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -274,16 +274,16 @@ export function ChatbotPage() {
                       </p>
                       <p className="text-xs text-phantom-500 mt-0.5">
                         {formatFileSize(doc.fileSize)}
-                        {doc.status === 'ready' && ` · ${doc.chunkCount} chunks`}
+                        {doc.status === 'ready' && ` · ${doc.chunkCount} חלקים`}
                       </p>
                       {doc.status === 'processing' && (
                         <div className="flex items-center gap-1.5 mt-1.5">
                           <Loader2 className="w-3 h-3 animate-spin text-violet-500" />
-                          <span className="text-xs text-violet-600">Processing...</span>
+                          <span className="text-xs text-violet-600">מעבד...</span>
                         </div>
                       )}
                       {doc.status === 'error' && (
-                        <p className="text-xs text-red-500 mt-1">Error processing file</p>
+                        <p className="text-xs text-red-500 mt-1">שגיאה בעיבוד הקובץ</p>
                       )}
                     </div>
                     <button
@@ -317,8 +317,8 @@ export function ChatbotPage() {
               </div>
               <p className="text-xs text-phantom-500">
                 {readyDocuments.length > 0
-                  ? `${readyDocuments.length} document${readyDocuments.length !== 1 ? 's' : ''} loaded`
-                  : 'Upload documents to enable RAG'}
+                  ? `${readyDocuments.length} מסמך${readyDocuments.length !== 1 ? 'ים' : ''} נטענו`
+                  : 'העלו מסמכים להפעלת RAG'}
               </p>
             </div>
           </div>
@@ -334,23 +334,23 @@ export function ChatbotPage() {
                 className="w-16 h-16 mx-auto mb-5 object-contain"
               />
               <h2 className="text-xl font-semibold text-phantom-900 mb-2">
-                Welcome to Leave a Mark Brain
+                ברוכים הבאים ל-Leave a Mark Brain
               </h2>
               {isSeeding ? (
                 <div className="flex items-center justify-center gap-2 text-phantom-500 mb-8">
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Loading sample marketing content...</span>
+                  <span>טוען תוכן שיווקי לדוגמה...</span>
                 </div>
               ) : (
                 <p className="text-phantom-500 mb-8 max-w-md mx-auto">
                   {readyDocuments.length > 0
-                    ? 'Ask me anything about Leave a Mark services, case studies, and marketing insights.'
-                    : 'Upload some documents using the sidebar, then ask me questions about them.'}
+                    ? 'שאלו אותי כל שאלה על שירותי Leave a Mark, מקרי בוחן ותובנות שיווקיות.'
+                    : 'העלו מסמכים בעזרת הסרגל הצדדי, ואז שאלו אותי שאלות עליהם.'}
                 </p>
               )}
               {readyDocuments.length > 0 && !isSeeding && (
                 <div className="flex flex-wrap justify-center gap-2">
-                  {['What services does Leave a Mark offer?', 'Tell me about the case studies', 'What makes Leave a Mark different?'].map(suggestion => (
+                  {['אילו שירותים Leave a Mark מציעה?', 'ספר לי על מקרי הבוחן', 'מה מייחד את Leave a Mark?'].map(suggestion => (
                     <button
                       key={suggestion}
                       onClick={() => setMessage(suggestion)}
@@ -365,7 +365,7 @@ export function ChatbotPage() {
           ) : (
             <div className="max-w-3xl mx-auto space-y-6">
               {messages.map((msg) => (
-                <div key={msg.id} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
+                <div key={msg.id} className={`flex gap-3 ${msg.role === 'user' ? 'justify-start' : ''}`}>
                   {msg.role === 'assistant' && (
                     <img
                       src="https://leave-mark.com/pp/wp-content/uploads/2021/11/%D7%9C%D7%95%D7%92%D7%95-%D7%9C%D7%99%D7%91-%D7%90-%D7%90%D7%9E%D7%90%D7%A8%D7%A7-%D7%97%D7%93%D7%A9.png"
@@ -398,7 +398,7 @@ export function ChatbotPage() {
                           className="inline-flex items-center gap-1.5 text-xs text-violet-600 hover:text-violet-700"
                         >
                           <FileText className="w-3.5 h-3.5" />
-                          {msg.sources.length} source{msg.sources.length !== 1 ? 's' : ''}
+                          {msg.sources.length} מקור{msg.sources.length !== 1 ? 'ות' : ''}
                           {expandedSources.has(msg.id) ? (
                             <ChevronUp className="w-3.5 h-3.5" />
                           ) : (
@@ -418,7 +418,7 @@ export function ChatbotPage() {
                                     {source.filename}
                                   </span>
                                   <span className="text-[10px] text-phantom-400 bg-phantom-100 px-1.5 py-0.5 rounded">
-                                    {(source.score * 100).toFixed(0)}% match
+                                    {(source.score * 100).toFixed(0)}% התאמה
                                   </span>
                                 </div>
                                 <p className="text-xs text-phantom-500 line-clamp-3">
@@ -433,7 +433,7 @@ export function ChatbotPage() {
                   </div>
                   {msg.role === 'user' && (
                     <div className="w-8 h-8 rounded-lg bg-phantom-200 flex items-center justify-center flex-shrink-0">
-                      <span className="text-phantom-600 text-xs font-medium">You</span>
+                      <span className="text-phantom-600 text-xs font-medium">אני</span>
                     </div>
                   )}
                 </div>
@@ -453,7 +453,7 @@ export function ChatbotPage() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-                placeholder={readyDocuments.length > 0 ? 'Ask about your documents...' : 'Upload documents to start chatting...'}
+                placeholder={readyDocuments.length > 0 ? 'שאלו על המסמכים שלכם...' : 'העלו מסמכים כדי להתחיל לשוחח...'}
                 className="flex-1 bg-transparent text-phantom-900 text-sm placeholder-phantom-400 focus:outline-none"
                 disabled={isLoading}
               />

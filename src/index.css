@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-sans: 'Noto Sans Hebrew', 'Inter', system-ui, -apple-system, sans-serif;
 
   --color-phantom-50: #fafafa;
   --color-phantom-100: #f4f4f5;
@@ -18,6 +18,11 @@
 }
 
 @layer base {
+  html {
+    direction: rtl;
+    font-size: 14px; /* Reduced from default 16px for ~87.5% scale */
+  }
+
   body {
     @apply bg-phantom-50 text-phantom-900 antialiased font-sans;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';

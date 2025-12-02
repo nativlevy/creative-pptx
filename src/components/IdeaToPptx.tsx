@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Lightbulb, Download, Loader2, ArrowLeft, Sparkles, Presentation } from 'lucide-react';
+import { Lightbulb, Download, Loader2, ArrowRight, Sparkles, Presentation } from 'lucide-react';
 
 interface IdeaToPptxProps {
   onClose: () => void;
@@ -28,7 +28,7 @@ export function IdeaToPptx({ onClose }: IdeaToPptxProps) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to generate presentation');
+        throw new Error(errorData.error || 'יצירת המצגת נכשלה');
       }
 
       // Get the blob from response
@@ -52,17 +52,17 @@ export function IdeaToPptx({ onClose }: IdeaToPptxProps) {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
+      setError(err instanceof Error ? err.message : 'משהו השתבש');
     } finally {
       setIsGenerating(false);
     }
   };
 
   const exampleIdeas = [
-    "A startup pitch for an AI-powered fitness app that creates personalized workout plans",
-    "Quarterly business review highlighting sales growth and market expansion",
-    "Product launch presentation for a sustainable packaging solution",
-    "Team onboarding presentation covering company culture and processes"
+    "פיץ' לסטארטאפ על אפליקציית כושר מונעת AI שיוצרת תוכניות אימון מותאמות אישית",
+    "סיכום עסקי רבעוני המדגיש צמיחה במכירות והתרחבות בשוק",
+    "מצגת השקת מוצר לפתרון אריזה בר-קיימא",
+    "מצגת קליטת צוות המכסה תרבות החברה ותהליכים"
   ];
 
   return (
@@ -74,15 +74,15 @@ export function IdeaToPptx({ onClose }: IdeaToPptxProps) {
             onClick={onClose}
             className="p-2 rounded-lg hover:bg-phantom-100 transition-colors"
           >
-            <ArrowLeft className="w-5 h-5 text-phantom-600" />
+            <ArrowRight className="w-5 h-5 text-phantom-600" />
           </button>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
               <Lightbulb className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-semibold text-phantom-900">Idea to Presentation</h1>
-              <p className="text-phantom-500 text-sm">Describe your idea and get a polished PowerPoint</p>
+              <h1 className="text-2xl font-semibold text-phantom-900">מרעיון למצגת</h1>
+              <p className="text-phantom-500 text-sm">תארו את הרעיון וקבלו PowerPoint מלוטש</p>
             </div>
           </div>
         </div>
@@ -92,12 +92,12 @@ export function IdeaToPptx({ onClose }: IdeaToPptxProps) {
           {/* Input Section */}
           <div className="p-6">
             <label className="block text-sm font-medium text-phantom-700 mb-2">
-              Describe your presentation idea
+              תארו את רעיון המצגת שלכם
             </label>
             <textarea
               value={idea}
               onChange={(e) => setIdea(e.target.value)}
-              placeholder="E.g., A pitch deck for a sustainable fashion marketplace that connects eco-conscious consumers with ethical brands..."
+              placeholder="למשל, מצגת פיץ' לשוק אופנה בר-קיימא המחבר צרכנים מודעים לסביבה עם מותגים אתיים..."
               className="w-full h-40 px-4 py-3 rounded-xl border border-phantom-200 bg-phantom-50 text-phantom-900 placeholder:text-phantom-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none transition-all"
               disabled={isGenerating}
             />
@@ -105,10 +105,10 @@ export function IdeaToPptx({ onClose }: IdeaToPptxProps) {
             {/* Character count */}
             <div className="flex items-center justify-between mt-2">
               <span className="text-xs text-phantom-400">
-                {idea.length} characters
+                {idea.length} תווים
               </span>
               <span className="text-xs text-phantom-400">
-                Recommended: 50-500 characters
+                מומלץ: 50-500 תווים
               </span>
             </div>
           </div>
@@ -117,7 +117,7 @@ export function IdeaToPptx({ onClose }: IdeaToPptxProps) {
           <div className="px-6 pb-6">
             <p className="text-xs font-medium text-phantom-500 mb-3 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
-              Try an example
+              נסו דוגמה
             </p>
             <div className="flex flex-wrap gap-2">
               {exampleIdeas.map((example, index) => (
@@ -151,12 +151,12 @@ export function IdeaToPptx({ onClose }: IdeaToPptxProps) {
               {isGenerating ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Generating presentation...
+                  יוצר מצגת...
                 </>
               ) : (
                 <>
                   <Download className="w-5 h-5" />
-                  Generate & Download PPTX
+                  יצירה והורדת PPTX
                 </>
               )}
             </button>
@@ -170,12 +170,12 @@ export function IdeaToPptx({ onClose }: IdeaToPptxProps) {
               <Presentation className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h3 className="font-medium text-phantom-900 mb-1">How it works</h3>
+              <h3 className="font-medium text-phantom-900 mb-1">איך זה עובד</h3>
               <ul className="text-sm text-phantom-500 space-y-1">
-                <li>1. Describe your idea in natural language</li>
-                <li>2. Our AI analyzes and structures your content</li>
-                <li>3. A professional PowerPoint is generated with 5-8 slides</li>
-                <li>4. Download and customize in PowerPoint or Google Slides</li>
+                <li>1. תארו את הרעיון שלכם בשפה טבעית</li>
+                <li>2. ה-AI שלנו מנתח ומבנה את התוכן</li>
+                <li>3. נוצרת מצגת PowerPoint מקצועית עם 5-8 שקפים</li>
+                <li>4. הורידו והתאימו ב-PowerPoint או Google Slides</li>
               </ul>
             </div>
           </div>

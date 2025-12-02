@@ -3,10 +3,10 @@ import {
   X,
   Upload,
   ChevronDown,
-  ChevronRight,
+  ChevronLeft,
   Check,
   Info,
-  ArrowLeft,
+  ArrowRight,
   Loader2,
   Users,
   Target,
@@ -166,14 +166,14 @@ const STORAGE_STEP_KEY = 'presentation-wizard-step';
 // =============================================================================
 
 const createInitialSteps = (): WizardStep[] => [
-  { id: 'upload', number: 1, title: 'Getting Started', icon: <Upload className="w-4 h-4" />, completed: false, active: true, disabled: false },
-  { id: 'audience', number: 2, title: 'Audience Summary', icon: <Users className="w-4 h-4" />, completed: false, active: false, disabled: true },
-  { id: 'challenges', number: 3, title: 'Challenges & Opportunities', icon: <Target className="w-4 h-4" />, completed: false, active: false, disabled: true },
-  { id: 'bigidea', number: 4, title: 'The Big Idea', icon: <Lightbulb className="w-4 h-4" />, completed: false, active: false, disabled: true },
-  { id: 'journey', number: 5, title: 'Audience Journey', icon: <Route className="w-4 h-4" />, completed: false, active: false, disabled: true },
-  { id: 'receptiveness', number: 6, title: 'Receptiveness', icon: <Heart className="w-4 h-4" />, completed: false, active: false, disabled: true },
-  { id: 'cta', number: 7, title: 'Call to Action', icon: <Megaphone className="w-4 h-4" />, completed: false, active: false, disabled: true },
-  { id: 'storyboard', number: 8, title: 'Storyboard Structure', icon: <LayoutGrid className="w-4 h-4" />, completed: false, active: false, disabled: true },
+  { id: 'upload', number: 1, title: 'התחלה', icon: <Upload className="w-4 h-4" />, completed: false, active: true, disabled: false },
+  { id: 'audience', number: 2, title: 'סיכום קהל יעד', icon: <Users className="w-4 h-4" />, completed: false, active: false, disabled: true },
+  { id: 'challenges', number: 3, title: 'אתגרים והזדמנויות', icon: <Target className="w-4 h-4" />, completed: false, active: false, disabled: true },
+  { id: 'bigidea', number: 4, title: 'הרעיון הגדול', icon: <Lightbulb className="w-4 h-4" />, completed: false, active: false, disabled: true },
+  { id: 'journey', number: 5, title: 'מסע הקהל', icon: <Route className="w-4 h-4" />, completed: false, active: false, disabled: true },
+  { id: 'receptiveness', number: 6, title: 'פתיחות', icon: <Heart className="w-4 h-4" />, completed: false, active: false, disabled: true },
+  { id: 'cta', number: 7, title: 'קריאה לפעולה', icon: <Megaphone className="w-4 h-4" />, completed: false, active: false, disabled: true },
+  { id: 'storyboard', number: 8, title: 'מבנה הסטוריבורד', icon: <LayoutGrid className="w-4 h-4" />, completed: false, active: false, disabled: true },
 ];
 
 // =============================================================================
@@ -318,7 +318,7 @@ function SelectInput<T extends string>({
         onChange={(e) => onChange(e.target.value as T)}
         className="w-full px-4 py-2.5 border border-phantom-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 text-phantom-900 bg-white transition-all"
       >
-        <option value="">Select an option...</option>
+        <option value="">בחרו אפשרות...</option>
         {options.map(opt => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>
         ))}
@@ -394,7 +394,7 @@ function MultiSelectChips({
             value={customInput}
             onChange={(e) => setCustomInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustom())}
-            placeholder="Add custom..."
+            placeholder="הוסף מותאם אישית..."
             className="flex-1 px-3 py-1.5 text-sm border border-phantom-200 rounded-lg focus:outline-none focus:border-violet-500"
           />
           <button
@@ -470,7 +470,7 @@ function DynamicList({
         className="mt-2 flex items-center gap-1 text-sm text-violet-600 hover:text-violet-700 font-medium"
       >
         <Plus className="w-4 h-4" />
-        Add another
+        הוסף עוד
       </button>
     </div>
   );
@@ -523,9 +523,9 @@ function PriorityList({
               onChange={(e) => updateItem(item.id, { priority: e.target.value as 'high' | 'medium' | 'low' })}
               className={`px-3 py-2 rounded-lg border text-sm font-medium ${priorityColors[item.priority]}`}
             >
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
+              <option value="high">גבוה</option>
+              <option value="medium">בינוני</option>
+              <option value="low">נמוך</option>
             </select>
             <button
               type="button"
@@ -543,7 +543,7 @@ function PriorityList({
         className="mt-2 flex items-center gap-1 text-sm text-violet-600 hover:text-violet-700 font-medium"
       >
         <Plus className="w-4 h-4" />
-        Add challenge
+        הוסף אתגר
       </button>
     </div>
   );
@@ -601,7 +601,7 @@ function SimpleItemList({
         className="mt-2 flex items-center gap-1 text-sm text-violet-600 hover:text-violet-700 font-medium"
       >
         <Plus className="w-4 h-4" />
-        Add opportunity
+        הוסף הזדמנות
       </button>
     </div>
   );
@@ -709,11 +709,11 @@ function UploadStep({
     <article className="space-y-6">
       <header className="space-y-4">
         <h1 className="text-4xl font-bold text-phantom-900">
-          Let's Create Your Presentation
+          בואו ניצור את המצגת שלכם
         </h1>
         <p className="text-phantom-600">
-          Welcome to the Leave a Mark storytelling wizard. We'll guide you through a series of questions
-          to help craft a compelling presentation that resonates with your audience.
+          ברוכים הבאים לאשף הסטוריטלינג של Leave a Mark. נדריך אתכם דרך סדרת שאלות
+          שיעזרו לבנות מצגת משכנעת שתהדהד עם הקהל שלכם.
         </p>
       </header>
 
@@ -721,16 +721,16 @@ function UploadStep({
 
       <div className="space-y-6 pt-2">
         <TextInput
-          label="Project Name"
+          label="שם הפרויקט"
           value={data.projectName}
           onChange={(value) => onChange({ ...data, projectName: value })}
-          placeholder="e.g., Q4 Sales Pitch, Product Launch 2024"
+          placeholder="למשל, פיץ' מכירות Q4, השקת מוצר 2024"
           required
         />
 
-        <FormSection title="Upload Reference Material (Optional)">
+        <FormSection title="העלאת חומר עזר (אופציונלי)">
           <p className="text-sm text-phantom-500 mb-3">
-            Upload an existing deck or document to help inform your presentation structure.
+            העלו מצגת או מסמך קיים שיעזור לבנות את מבנה המצגת שלכם.
           </p>
           <input
             ref={fileInputRef}
@@ -746,16 +746,16 @@ function UploadStep({
             <div className="flex items-center gap-2">
               <Upload className="w-4 h-4" />
               <span className="font-medium">
-                {data.uploadedFileName || 'Upload Reference File'}
+                {data.uploadedFileName || 'העלו קובץ עזר'}
               </span>
             </div>
             <span className="text-xs text-phantom-500">PPTX/PDF/DOCX</span>
           </button>
         </FormSection>
 
-        <FormSection title="Import Previous Work">
+        <FormSection title="ייבוא עבודה קודמת">
           <p className="text-sm text-phantom-500 mb-3">
-            Have a saved wizard export? Import it to continue where you left off.
+            יש לכם ייצוא שמור מהאשף? ייבאו אותו כדי להמשיך מאיפה שעצרתם.
           </p>
           <input
             ref={jsonInputRef}
@@ -770,14 +770,14 @@ function UploadStep({
               className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-phantom-300 text-phantom-600 rounded-lg hover:border-violet-400 hover:text-violet-600 transition-colors"
             >
               <FileJson className="w-4 h-4" />
-              <span className="font-medium">Import JSON</span>
+              <span className="font-medium">ייבוא JSON</span>
             </button>
             <button
               onClick={onLoadSampleData}
               className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-violet-100 to-purple-100 border border-violet-200 text-violet-700 rounded-lg hover:from-violet-200 hover:to-purple-200 transition-colors"
             >
               <Sparkles className="w-4 h-4" />
-              <span className="font-medium">Fill Sample Data</span>
+              <span className="font-medium">מלא נתוני דוגמה</span>
             </button>
           </div>
         </FormSection>
@@ -1296,10 +1296,10 @@ function FinalStep({
     <article className="space-y-6">
       <header className="space-y-4">
         <h1 className="text-4xl font-bold text-phantom-900">
-          You're Ready!
+          אתם מוכנים!
         </h1>
         <p className="text-phantom-600">
-          Congratulations! You've completed the storytelling wizard. Now let's bring your presentation to life.
+          מזל טוב! סיימתם את אשף הסטוריטלינג. עכשיו בואו נביא את המצגת שלכם לחיים.
         </p>
       </header>
 
@@ -1308,9 +1308,9 @@ function FinalStep({
       {/* Completion Summary */}
       <div className="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-emerald-800">Completion Summary</h3>
+          <h3 className="font-semibold text-emerald-800">סיכום השלמה</h3>
           <span className="text-sm font-medium text-emerald-600">
-            {completedSections}/{totalSections} sections complete
+            {completedSections}/{totalSections} חלקים הושלמו
           </span>
         </div>
         <div className="w-full h-2 bg-emerald-200 rounded-full overflow-hidden">
@@ -1323,32 +1323,32 @@ function FinalStep({
 
       {/* Quick Preview */}
       <div className="bg-phantom-50 rounded-xl p-6 space-y-4">
-        <h3 className="font-semibold text-phantom-800">Quick Preview</h3>
+        <h3 className="font-semibold text-phantom-800">תצוגה מקדימה</h3>
 
         {formData.projectName && (
           <div>
-            <span className="text-xs font-medium text-phantom-500">PROJECT</span>
+            <span className="text-xs font-medium text-phantom-500">פרויקט</span>
             <p className="text-phantom-900">{formData.projectName}</p>
           </div>
         )}
 
         {formData.bigIdea.bigIdea && (
           <div>
-            <span className="text-xs font-medium text-phantom-500">BIG IDEA</span>
+            <span className="text-xs font-medium text-phantom-500">הרעיון הגדול</span>
             <p className="text-phantom-900 italic">"{formData.bigIdea.bigIdea}"</p>
           </div>
         )}
 
         {formData.audience.primaryAudience && (
           <div>
-            <span className="text-xs font-medium text-phantom-500">AUDIENCE</span>
+            <span className="text-xs font-medium text-phantom-500">קהל יעד</span>
             <p className="text-phantom-900">{formData.audience.primaryAudience}</p>
           </div>
         )}
 
         {formData.cta.primaryCta && (
           <div>
-            <span className="text-xs font-medium text-phantom-500">CALL TO ACTION</span>
+            <span className="text-xs font-medium text-phantom-500">קריאה לפעולה</span>
             <p className="text-phantom-900">{formData.cta.primaryCta}</p>
           </div>
         )}
@@ -1364,12 +1364,12 @@ function FinalStep({
           {isGenerating ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              Generating Presentation...
+              מייצר מצגת...
             </>
           ) : (
             <>
               <Download className="w-5 h-5" />
-              Generate & Download PPTX
+              יצירה והורדת PPTX
             </>
           )}
         </button>
@@ -1379,12 +1379,12 @@ function FinalStep({
           className="w-full flex items-center justify-center gap-2 px-6 py-3 border-2 border-phantom-200 text-phantom-700 font-medium rounded-xl hover:bg-phantom-50 transition-colors"
         >
           <FileJson className="w-5 h-5" />
-          Export Wizard Data (JSON)
+          ייצוא נתוני האשף (JSON)
         </button>
       </div>
 
       <p className="text-xs text-center text-phantom-500">
-        Your progress is automatically saved. You can close this wizard and return anytime.
+        ההתקדמות שלכם נשמרת אוטומטית. תוכלו לסגור את האשף ולחזור בכל עת.
       </p>
     </article>
   );
@@ -1646,19 +1646,19 @@ STORYBOARD:
   }, [currentStep, formData]);
 
   return (
-    <div className="flex-1 flex overflow-hidden">
+    <div className="flex-1 flex flex-row-reverse overflow-hidden">
       {/* Wizard Sidebar */}
-      <aside className="w-64 border-r border-phantom-200 bg-white flex flex-col p-5 overflow-y-auto">
+      <aside className="w-64 border-l border-phantom-200 bg-white flex flex-col p-5 overflow-y-auto">
         <div className="mb-4">
           <span className="text-xs text-phantom-500 font-medium flex items-center gap-1">
-            Leave a Mark Storyteller
+            Leave a Mark סטוריטלר
             <Info className="w-3.5 h-3.5" />
           </span>
         </div>
 
         <div className="flex items-center justify-between mb-6">
           <span className="text-sm font-bold text-phantom-900">
-            {formData.projectName || 'New Project'}
+            {formData.projectName || 'פרויקט חדש'}
           </span>
           <button
             onClick={onClose}
@@ -1684,14 +1684,14 @@ STORYBOARD:
         <div className="mt-auto pt-4 border-t border-phantom-100 space-y-3">
           <div className="flex items-center gap-2 text-xs text-phantom-500">
             <div className="w-2 h-2 rounded-full bg-emerald-500" />
-            Progress auto-saved
+            ההתקדמות נשמרת אוטומטית
           </div>
           <button
             onClick={handleResetProgress}
             className="flex items-center gap-1.5 text-xs text-phantom-400 hover:text-red-500 transition-colors"
           >
             <Trash2 className="w-3.5 h-3.5" />
-            Reset progress
+            אפס התקדמות
           </button>
         </div>
       </aside>
@@ -1795,8 +1795,8 @@ STORYBOARD:
                   : 'text-phantom-600 hover:bg-phantom-100'
               }`}
             >
-              <ArrowLeft className="w-4 h-4" />
-              Back
+              חזרה
+              <ArrowRight className="w-4 h-4" />
             </button>
 
             {!isLastStep && (
@@ -1809,8 +1809,8 @@ STORYBOARD:
                     : 'bg-phantom-100 text-phantom-400 cursor-not-allowed'
                 }`}
               >
-                Continue
-                <ChevronRight className="w-5 h-5" />
+                <ChevronLeft className="w-5 h-5" />
+                המשך
               </button>
             )}
           </div>

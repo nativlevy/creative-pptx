@@ -26,7 +26,7 @@ export function ProjectsPage() {
 
   const handleCreateProject = async () => {
     try {
-      const project = await createProject('New Project');
+      const project = await createProject('פרויקט חדש');
       navigate('/wizard', { state: { projectId: project._id } });
     } catch (error) {
       console.error('Failed to create project:', error);
@@ -35,7 +35,7 @@ export function ProjectsPage() {
 
   const handleDeleteProject = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!confirm('Are you sure you want to delete this project?')) return;
+    if (!confirm('האם אתה בטוח שברצונך למחוק את הפרויקט הזה?')) return;
     try {
       await deleteProject(id);
       await loadProjects();
@@ -45,11 +45,19 @@ export function ProjectsPage() {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString('he-IL', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
     });
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'draft': return 'טיוטה';
+      case 'complete': return 'הושלם';
+      default: return status;
+    }
   };
 
   return (
@@ -57,14 +65,14 @@ export function ProjectsPage() {
       <div className="max-w-5xl mx-auto px-8 py-10">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold text-phantom-900 tracking-tight">
-            My Projects
+            הפרויקטים שלי
           </h1>
           <button
             onClick={handleCreateProject}
             className="flex items-center gap-2 px-4 py-2 bg-violet-500 text-white text-sm font-medium rounded-lg hover:bg-violet-600 transition-colors shadow-sm"
           >
             <Plus className="w-4 h-4" />
-            New Project
+            פרויקט חדש
           </button>
         </div>
 
@@ -77,14 +85,14 @@ export function ProjectsPage() {
             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-phantom-100 flex items-center justify-center">
               <Folder className="w-8 h-8 text-phantom-400" />
             </div>
-            <h3 className="text-lg font-medium text-phantom-900 mb-2">No projects yet</h3>
-            <p className="text-phantom-500 mb-6">Create your first project to get started</p>
+            <h3 className="text-lg font-medium text-phantom-900 mb-2">אין עדיין פרויקטים</h3>
+            <p className="text-phantom-500 mb-6">צרו את הפרויקט הראשון שלכם כדי להתחיל</p>
             <button
               onClick={handleCreateProject}
               className="inline-flex items-center gap-2 px-4 py-2 bg-violet-500 text-white text-sm font-medium rounded-lg hover:bg-violet-600 transition-colors"
             >
               <Plus className="w-4 h-4" />
-              Create Project
+              צור פרויקט
             </button>
           </div>
         ) : (
@@ -115,7 +123,7 @@ export function ProjectsPage() {
                     project.status === 'complete' ? 'bg-emerald-100 text-emerald-700' :
                     'bg-phantom-100 text-phantom-600'
                   }`}>
-                    {project.status}
+                    {getStatusLabel(project.status)}
                   </span>
                 </div>
               </div>

@@ -20,7 +20,7 @@ function ToolItem({ icon, title, description, requiresUpload = false, onClick }:
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-3.5 py-3 hover:bg-phantom-50/80 transition-colors duration-150 text-left group"
+      className="w-full flex items-center gap-3 px-3.5 py-3 hover:bg-phantom-50/80 transition-colors duration-150 text-right group"
     >
       <div className="w-9 h-9 rounded-lg bg-phantom-100/80 border border-phantom-200/80 flex items-center justify-center text-phantom-500 group-hover:text-phantom-700 group-hover:border-phantom-300 group-hover:bg-phantom-100 transition-all duration-150">
         {icon}
@@ -32,7 +32,7 @@ function ToolItem({ icon, title, description, requiresUpload = false, onClick }:
       {requiresUpload && (
         <span className="flex items-center gap-1 text-[10px] font-medium text-violet-600 bg-violet-50 px-2 py-1 rounded-md border border-violet-100/80">
           <Upload className="w-3 h-3" />
-          Upload
+          העלאה
         </span>
       )}
     </button>
@@ -43,42 +43,42 @@ export function ToolsSection() {
   return (
     <div className="rounded-xl border border-phantom-200/80 bg-white/80 backdrop-blur-sm overflow-hidden">
       <div className="px-4 py-3 border-b border-phantom-200/60 bg-phantom-50/30">
-        <h3 className="text-phantom-900 font-semibold text-[13px]">Tools</h3>
+        <h3 className="text-phantom-900 font-semibold text-[13px]">כלים</h3>
       </div>
       <div className="divide-y divide-phantom-100/80">
         <ToolItem
           icon={<LayoutTemplate className="w-4 h-4" />}
-          title="Improve slide content"
-          description="Get a report for restructuring and rewriting slides."
+          title="שיפור תוכן שקפים"
+          description="קבלו דוח לארגון מחדש ושכתוב של שקפים."
           requiresUpload
         />
         <ToolItem
           icon={<Palette className="w-4 h-4" />}
-          title="Improve slide design"
-          description="Get a report for revising slide layout and format."
+          title="שיפור עיצוב שקפים"
+          description="קבלו דוח לשינוי פריסה ועיצוב שקפים."
           requiresUpload
         />
         <ToolItem
           icon={<FileText className="w-4 h-4" />}
-          title="Build a presentation"
-          description="Get a ~21-slide PowerPoint deck with speaker notes."
+          title="בניית מצגת"
+          description="קבלו מצגת PowerPoint של ~21 שקפים עם הערות דובר."
           requiresUpload
         />
         <ToolItem
           icon={<FileCheck className="w-4 h-4" />}
-          title="Write a proposal"
-          description="Get a 5-page deck structured to drive action."
+          title="כתיבת הצעה"
+          description="קבלו מצגת של 5 עמודים המובנית להנעה לפעולה."
           requiresUpload
         />
         <ToolItem
           icon={<ListTree className="w-4 h-4" />}
-          title="Draft an outline"
-          description="Get a storyline in Word mapping the flow."
+          title="טיוטת מתווה"
+          description="קבלו קו סיפורי ב-Word הממפה את הזרימה."
         />
         <ToolItem
           icon={<BarChart3 className="w-4 h-4" />}
-          title="Improve chart clarity"
-          description="Get a report for clarifying chart design."
+          title="שיפור בהירות תרשימים"
+          description="קבלו דוח להבהרת עיצוב תרשימים."
           requiresUpload
         />
       </div>

@@ -69,7 +69,7 @@ export function Sidebar() {
   }, []);
 
   return (
-    <aside className="w-[220px] h-screen bg-phantom-50/50 border-r border-phantom-200/80 flex flex-col">
+    <aside className="w-[220px] h-screen bg-phantom-50/50 border-l border-phantom-200/80 flex flex-col">
       {/* Logo */}
       <div className="h-14 px-4 flex items-center border-b border-phantom-200/80">
         <div
@@ -88,19 +88,19 @@ export function Sidebar() {
       <nav className="flex-1 px-2.5 py-3 space-y-0.5 overflow-y-auto">
         <NavItem
           icon={<LayoutDashboard className="w-4 h-4" />}
-          label="Dashboard"
+          label="לוח בקרה"
           active={isActive('/') && !isActive('/projects')}
           onClick={() => navigate('/')}
         />
         <NavItem
           icon={<Folder className="w-4 h-4" />}
-          label="My Projects"
+          label="הפרויקטים שלי"
           active={isActive('/projects')}
           onClick={() => navigate('/projects')}
         />
         <NavItem
           icon={<MessageSquare className="w-4 h-4" />}
-          label="AI Chatbot"
+          label="צ'אטבוט AI"
           active={isActive('/chatbot')}
           onClick={() => navigate('/chatbot')}
         />
@@ -110,14 +110,14 @@ export function Sidebar() {
       <div className="px-2.5 py-2 border-t border-phantom-200/80 space-y-0.5">
         <NavItem
           icon={<Settings className="w-4 h-4" />}
-          label="Settings"
+          label="הגדרות"
           active={isActive('/settings')}
           onClick={() => navigate('/settings')}
         />
         <NavItem
           icon={<LogOut className="w-4 h-4" />}
-          label="Sign out"
-          onClick={() => alert('Sign out clicked')}
+          label="התנתקות"
+          onClick={() => alert('מתנתק...')}
         />
       </div>
 
@@ -128,11 +128,11 @@ export function Sidebar() {
           className="w-full flex items-center gap-2.5 p-1.5 -m-1.5 rounded-lg hover:bg-phantom-100/80 transition-colors"
         >
           <div className="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-white text-[10px] font-semibold shadow-sm">
-            JD
+            מנ
           </div>
-          <div className="flex-1 min-w-0 text-left">
-            <p className="text-[13px] text-phantom-900 font-medium truncate leading-tight">Leave a Mark admin</p>
-            <p className="text-[11px] text-phantom-500 truncate leading-tight">Agent</p>
+          <div className="flex-1 min-w-0 text-right">
+            <p className="text-[13px] text-phantom-900 font-medium truncate leading-tight">מנהל Leave a Mark</p>
+            <p className="text-[11px] text-phantom-500 truncate leading-tight">סוכן</p>
           </div>
           <ChevronDown className={`w-3.5 h-3.5 text-phantom-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
         </button>
@@ -141,7 +141,7 @@ export function Sidebar() {
         {userMenuOpen && (
           <div className="absolute bottom-full left-3 right-3 mb-2 bg-white rounded-xl shadow-lg border border-phantom-200/80 overflow-hidden z-50">
             <div className="px-3 py-2.5 border-b border-phantom-200/80">
-              <p className="text-[13px] font-semibold text-phantom-900">Leave a Mark admin</p>
+              <p className="text-[13px] font-semibold text-phantom-900">מנהל Leave a Mark</p>
               <p className="text-[11px] text-phantom-500">john@leaveamark.agency</p>
             </div>
             <div className="py-1">
@@ -153,7 +153,7 @@ export function Sidebar() {
                 className="w-full flex items-center gap-2.5 px-3 py-2 text-[12px] text-phantom-700 hover:bg-phantom-50 transition-colors"
               >
                 <User className="w-3.5 h-3.5 text-phantom-400" />
-                View Profile
+                הצג פרופיל
               </button>
               <button
                 onClick={() => {
@@ -163,28 +163,28 @@ export function Sidebar() {
                 className="w-full flex items-center gap-2.5 px-3 py-2 text-[12px] text-phantom-700 hover:bg-phantom-50 transition-colors"
               >
                 <Settings className="w-3.5 h-3.5 text-phantom-400" />
-                Settings
+                הגדרות
               </button>
               <button
                 className="w-full flex items-center gap-2.5 px-3 py-2 text-[12px] text-phantom-700 hover:bg-phantom-50 transition-colors"
               >
                 <CreditCard className="w-3.5 h-3.5 text-phantom-400" />
-                Billing & Plans
+                חיוב ותוכניות
               </button>
               <button
                 className="w-full flex items-center gap-2.5 px-3 py-2 text-[12px] text-phantom-700 hover:bg-phantom-50 transition-colors"
               >
                 <HelpCircle className="w-3.5 h-3.5 text-phantom-400" />
-                Help & Support
+                עזרה ותמיכה
               </button>
             </div>
             <div className="py-1 border-t border-phantom-200/80">
               <button
-                onClick={() => alert('Signing out...')}
+                onClick={() => alert('מתנתק...')}
                 className="w-full flex items-center gap-2.5 px-3 py-2 text-[12px] text-red-600 hover:bg-red-50 transition-colors"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                Sign out
+                התנתקות
               </button>
             </div>
           </div>
