@@ -232,20 +232,43 @@ const isProduction = process.env.NODE_ENV === 'production' || existsSync('./dist
 if (isProduction && existsSync('./dist/index.html')) {
   console.log('Production mode: serving static files from ./dist');
 
-  // Serve all static files from dist (assets, json, svg, etc.)
-  app.use('*', serveStatic({ root: './dist' }));
-
-  // SPA fallback - serve index.html for client-side routes (not files, not API)
-  app.use('*', async (c, next) => {
-    const path = c.req.path;
+  // Serve static files - check if file exists, otherwise serve index.html
+  app.get('*', (c) => {
+    const urlPath = c.req.path;
 
     // Skip API routes
-    if (path.startsWith('/api')) {
-      return next();
+    if (urlPath.startsWith('/api')) {
+      return c.notFound();
     }
 
-    // Check if a static file was already served (response has body)
-    // If serveStatic didn't find a file, serve index.html for SPA routing
+    // Try to serve static file from dist
+    const filePath = `./dist${urlPath}`;
+    if (existsSync(filePath)) {
+      const content = readFileSync(filePath);
+      const ext = urlPath.split('.').pop()?.toLowerCase();
+
+      // Set content type based on extension
+      const contentTypes: Record<string, string> = {
+        'html': 'text/html',
+        'css': 'text/css',
+        'js': 'application/javascript',
+        'json': 'application/json',
+        'svg': 'image/svg+xml',
+        'png': 'image/png',
+        'jpg': 'image/jpeg',
+        'jpeg': 'image/jpeg',
+        'ico': 'image/x-icon',
+        'woff': 'font/woff',
+        'woff2': 'font/woff2',
+      };
+
+      const contentType = contentTypes[ext || ''] || 'application/octet-stream';
+      return new Response(content, {
+        headers: { 'Content-Type': contentType }
+      });
+    }
+
+    // SPA fallback - serve index.html for client-side routes
     const html = readFileSync('./dist/index.html', 'utf-8');
     return c.html(html);
   });
